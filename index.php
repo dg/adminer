@@ -10,6 +10,7 @@ function adminer_object() {
     }
 
     $plugins = array(
+        new AdminerAutocomplete,
     );
 
     /* It is possible to combine customization and plugins:
