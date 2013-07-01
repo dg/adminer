@@ -98,7 +98,7 @@
         $area.getCompletion = function (performCycle) {
             var text = this.getChunk(),
                 selectionText = this.getSelection().text,
-                suggests = this.suggests,
+                suggests = performCycle < 0 ? this.suggests.slice(0).reverse() : this.suggests,
                 foundAlreadySelectedValue = false,
                 i,
                 suggest;
@@ -153,7 +153,7 @@
                 if ($area.options.cycleOnTab) {
                     var chunk = $area.getChunk();
                     if (chunk.length >= $area.options.minChunkSize) {
-                        $area.updateSelection($area.getCompletion(true));
+                        $area.updateSelection($area.getCompletion(e.shiftKey ? -1 : 1));
                     }
                     e.preventDefault();
                     e.stopPropagation();
