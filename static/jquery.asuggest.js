@@ -35,6 +35,7 @@
         SPACE: 32
     };
     $.asuggestFocused = null;
+    $.lastSuggestion = '';
 
     $.fn.asuggest = function (suggests, options) {
         return this.each(function () {
@@ -99,15 +100,17 @@
                 selectionText = this.getSelection().text,
                 suggests = this.suggests,
                 foundAlreadySelectedValue = false,
-                firstMatchedValue = null,
                 i,
                 suggest;
+            $.lastSuggestion = '';
+
             // search the variant
             for (i = 0; i < suggests.length; i++) {
                 suggest = suggests[i];
                 if ($area.options.ignoreCase) {
                     suggest = suggest.toLowerCase();
                     text = text.toLowerCase();
+                    selectionText = selectionText.toLowerCase();
                 }
                 // some variant is found
                 if (suggest.indexOf(text) === 0) {
@@ -115,20 +118,18 @@
                         if (text + selectionText === suggest) {
                             foundAlreadySelectedValue = true;
                         } else if (foundAlreadySelectedValue) {
-                            return suggest.substr(text.length);
-                        } else if (firstMatchedValue === null) {
-                            firstMatchedValue = suggest;
+                            $.lastSuggestion = suggests[i];
+                            break;
+                        } else if ($.lastSuggestion === '') {
+                            $.lastSuggestion = suggests[i];
                         }
                     } else {
-                        return suggest.substr(text.length);
+                        $.lastSuggestion = suggests[i];
+                        break;
                     }
                 }
             }
-            if (performCycle && firstMatchedValue) {
-                return firstMatchedValue.substr(text.length);
-            } else {
-                return null;
-            }
+            return $.lastSuggestion.substr(text.length);
         };
 
         $area.updateSelection = function (completion) {
@@ -166,9 +167,11 @@
                     $.inArray(e.keyCode, $area.options.stopSuggestionKeys) !== -1) {
                 // apply suggestion. Clean up selection and insert a space
                 var endingSymbols = (e.keyCode === KEY.RETURN ? $area.options.endingSymbols : '');
-                var _selectionEnd = $area.getSelection().end + endingSymbols.length;
-                var _text = $area.getSelection().text + endingSymbols;
+                var _selectionEnd = $area.getSelection().end;
+                var _text = $.lastSuggestion + endingSymbols;
+                $area.setSelection(_selectionEnd - $.lastSuggestion.length, _selectionEnd);
                 $area.replaceSelection(_text);
+                _selectionEnd = $area.getSelection().end;
                 $area.setSelection(_selectionEnd, _selectionEnd);
                 e.stopPropagation();
                 this.focus();
