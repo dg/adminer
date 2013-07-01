@@ -165,17 +165,17 @@
             if ($area.getSelection().length &&
                     $.inArray(e.keyCode, $area.options.stopSuggestionKeys) !== -1) {
                 // apply suggestion. Clean up selection and insert a space
-                var _selectionEnd = $area.getSelection().end +
-                        $area.options.endingSymbols.length;
-                var _text = $area.getSelection().text +
-                        $area.options.endingSymbols;
+                var endingSymbols = (e.keyCode === KEY.RETURN ? $area.options.endingSymbols : '');
+                var _selectionEnd = $area.getSelection().end + endingSymbols.length;
+                var _text = $area.getSelection().text + endingSymbols;
                 $area.replaceSelection(_text);
                 $area.setSelection(_selectionEnd, _selectionEnd);
-                e.preventDefault();
                 e.stopPropagation();
                 this.focus();
                 $.asuggestFocused = this;
-                return false;
+                if (e.keyCode === KEY.RETURN) {
+                    e.preventDefault();
+                }
             }
         });
 
