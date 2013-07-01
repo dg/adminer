@@ -15,18 +15,6 @@
 /*globals jQuery,document */
 
 (function ($) {
-    // workaround for Opera browser
-    if ($.browser.opera) {
-        $(document).keypress(function (e) {
-            if ($.asuggestFocused) {
-                $.asuggestFocused.focus();
-                $.asuggestFocused = null;
-                e.preventDefault();
-                e.stopPropagation();
-            }
-        });
-    }
-
     $.asuggestKeys = {
         UNKNOWN: 0,
         SHIFT: 16,
@@ -83,7 +71,7 @@
 
         /* Internal method: get the chunk of text before the cursor */
         $area.getChunk = function () {
-            var delimiters = this.options.delimiters.split(), // array of chars
+            var delimiters = this.options.delimiters.split(''), // array of chars
                 textBeforeCursor = this.val().substr(0, this.getSelection().start),
                 indexOfDelimiter = -1,
                 i,
