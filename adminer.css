@@ -361,6 +361,11 @@ select[name="db"] option {
 	padding-left: 18px;
 }
 
+select[name="db_style"], select[name="table_style"],
+select[name="db_style"] ~ label, select[name="table_style"] ~ label {
+    float: left;
+}
+
 #menu p a[href*="&select="] {
 	position: absolute;
 	width: 16px;
