@@ -363,7 +363,7 @@ select[name="db"] option {
 
 select[name="db_style"], select[name="table_style"],
 select[name="db_style"] ~ label, select[name="table_style"] ~ label {
-    float: left;
+	float: left;
 }
 
 #menu p a[href*="&select="] {
@@ -383,7 +383,6 @@ select[name="db_style"] ~ label, select[name="table_style"] ~ label {
 
 #menu p a[href*="&table="], #menu p a[href*="&view="] {
 	text-decoration: none;
-	display: inline-block;
 	padding: 0 5px;
 	position: relative;
 	margin-left: 20px;
