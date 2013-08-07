@@ -13,6 +13,7 @@ body {
 	background: #FFF;
 	color: #333;
 	font: 13px/18px Helvetica, Arial, sans-serif;
+	border-top: 40px solid #333;
 }
 
 /* generic */
@@ -211,13 +212,13 @@ table code {
 /* specific */
 
 #content {
-	margin: 40px 0 0 300px;
+	margin: 0 0 0 300px;
 	padding: 20px 20px 60px 20px;
 	background: white;
 	position: absolute;
 	z-index: 1;
 	left: 0;
-	right: 0;
+	float: left;
 }
 
 #content:after {
@@ -237,7 +238,6 @@ table code {
 }
 
 #lang {
-	background: #333;
 	color: #888;
 	height: 40px;
 	left: 0;
@@ -246,6 +246,7 @@ table code {
 	position: fixed;
 	top: 0;
 	width: 100%;
+	z-index: 2;
 }
 
 #lang select {
@@ -295,13 +296,13 @@ table code {
 #breadcrumb {
 	background: #333;
 	color: #FFF;
-	left: 300px;
+	left: 0;
+	top: 0;
 	line-height: 40px;
 	height: 40px;
 	margin: 0;
-	padding: 0 0 0 20px;
+	padding: 0 0 0 320px;
 	position: fixed;
-	top: 0;
 	width: 100%;
 }
 
