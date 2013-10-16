@@ -348,7 +348,7 @@ a[href*="dump="] {
 }
 
 a[href$="dump="] {
-	background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAHzSURBVHjajJPPS+NQEMcnaaxpdWsp6Q8vtWtdkIo9+B948SjIgruCUg8F/wGP/glePe5JcBehwl4qePGm0J6KQj30UBHEzaFLUromTfPizJMnrxhhB4bJvDfzme97SZQgCOB/be98J2AsAMYYMP81KjKg0WhMYljHtS30RSz4gjkGdot559F7OLt8vvi1bJRBURS4vr8CTTQ3m80SFv1MpVJlwzBA13XuNGUwGKyY1p+Vk9aPzWw8C7ZjQXximu+9ATA5KhQK5Uwmw+nCIpEIJBIJOLjah3Q8w7379x5urFsOUEUhTl/C6R+ef35mARzPhW6vC+q/iHvyvaYwXwIQje6j1+tBv98H13VhNBpxxyPA5tw2TI50MPQsrMbXbOo53fmtaJIC7iSZAMPhkOe+73MA5Ruz3yCfz9NlvykLBUSjUR41TQPP8zhE7JNSyj8E0CbJpkiXKRoIRFABeQcQd0DFwlVV5evUTFBZRSiATEwnp4lCAa0LI2AoQC4WimRl4qgyYOw12rYNyWSSX6L4mKiBnukDK5VKYJrmmBpZwW6r1TotFotTuVyOQwQgnU7zV9npdKDdbj+hgnXRN/Yz1ev1zwg6QP+KU2disRiXblkWOI7zhJOPce+wWq2aoQDZarXaJ2xYQGfod5VKxQ2rexFgAI4OiAKxKkWeAAAAAElFTkSuQmCC") no-repeat scroll 2px center	;
+	background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAHzSURBVHjajJPPS+NQEMcnaaxpdWsp6Q8vtWtdkIo9+B948SjIgruCUg8F/wGP/glePe5JcBehwl4qePGm0J6KQj30UBHEzaFLUromTfPizJMnrxhhB4bJvDfzme97SZQgCOB/be98J2AsAMYYMP81KjKg0WhMYljHtS30RSz4gjkGdot559F7OLt8vvi1bJRBURS4vr8CTTQ3m80SFv1MpVJlwzBA13XuNGUwGKyY1p+Vk9aPzWw8C7ZjQXximu+9ATA5KhQK5Uwmw+nCIpEIJBIJOLjah3Q8w7379x5urFsOUEUhTl/C6R+ef35mARzPhW6vC+q/iHvyvaYwXwIQje6j1+tBv98H13VhNBpxxyPA5tw2TI50MPQsrMbXbOo53fmtaJIC7iSZAMPhkOe+73MA5Ruz3yCfz9NlvykLBUSjUR41TQPP8zhE7JNSyj8E0CbJpkiXKRoIRFABeQcQd0DFwlVV5evUTFBZRSiATEwnp4lCAa0LI2AoQC4WimRl4qgyYOw12rYNyWSSX6L4mKiBnukDK5VKYJrmmBpZwW6r1TotFotTuVyOQwQgnU7zV9npdKDdbj+hgnXRN/Yz1ev1zwg6QP+KU2disRiXblkWOI7zhJOPce+wWq2aoQDZarXaJ2xYQGfod5VKxQ2rexFgAI4OiAKxKkWeAAAAAElFTkSuQmCC") no-repeat scroll 2px center;
 	padding-left: 22px;
 }
 
@@ -363,7 +363,7 @@ select[name="db"] option {
 
 select[name="db_style"], select[name="table_style"],
 select[name="db_style"] ~ label, select[name="table_style"] ~ label {
-    float: left;
+	float: left;
 }
 
 #menu p a[href*="&select="] {
@@ -383,12 +383,16 @@ select[name="db_style"] ~ label, select[name="table_style"] ~ label {
 
 #menu p a[href*="&table="], #menu p a[href*="&view="] {
 	text-decoration: none;
-	display: inline-block;
+	display: block;
 	padding: 0 5px;
 	position: relative;
 	margin-left: 20px;
 	min-width: 80px;
 	line-height: 1.6em;
+}
+
+#menu br {
+	display: none;
 }
 
 
