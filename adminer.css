@@ -6,6 +6,7 @@ it is based on some parts of:
 - CSS by Brade - http://www.bradezone.com
 - Silk icon set 1.3 by Mark James - http://www.famfamfam.com/lab/icons/silk
 - CSS icons by Hever - http://hev.cz
+- default Adminer design by Ondrej Valka, http://valka.info
 */
 
 
@@ -14,6 +15,7 @@ body {
 	color: #333;
 	font: 13px/18px Helvetica, Arial, sans-serif;
 	border-top: 40px solid #333;
+	margin: 0;
 }
 
 /* generic */
@@ -33,23 +35,20 @@ a:hover {
 }
 
 p {
-	margin-bottom: 4px;
+	margin: .8em 20px 4px 0;
 	padding-bottom: 4px;
 }
 
 h1 {
-	background: none;
-	border: none;
 	color: #666;
 	font-size: 18px;
 	font-weight: bold;
 	height: 40px;
 	padding: 0 0 8px;
+	margin: 0;
 }
 
 h2 {
-	background: transparent;
-	border: none;
 	color: #333;
 	font: 32px Georgia,serif;
 	margin: 0;
@@ -66,10 +65,11 @@ h3 {
 fieldset {
 	border: 1px solid #CCC;
 	float: left;
-	margin-bottom: 8px;
-	margin-right: 4px;
+	margin: .8em 4px 8px 0;
 	min-height: 48px;
 	padding: 0 4px 4px;
+	display: inline;
+	vertical-align: top;
 }
 
 fieldset div {
@@ -87,10 +87,13 @@ select {
 	padding: 2px;
 }
 
-textarea, .sqlarea {
-	font-family: Consolas,monospace;
+pre, textarea {
+	font: 16px/1.25 Consolas,monospace;
+}
+
+textarea {
+	width: 98%;
 	height: 500px;
-	font-size: 16px;
 }
 
 input[type=submit] {
@@ -139,7 +142,6 @@ code a:hover {
 
 table {
 	border: 1px solid #D0CDC4;
-	font-size: inherit;
 	margin: 4px 0 8px;
 }
 
@@ -148,9 +150,8 @@ tbody tr:hover td, tbody tr:hover th {
 }
 
 th, td {
-	background: inherit;
 	border: 1px dotted #CCC;
-	border-width:0 0 0 1px;
+	border-width: 0 0 0 1px;
 	font-weight: normal;
 	margin: 0;
 	padding: 3px 5px;
@@ -164,6 +165,11 @@ th, td {
 
 .js .checked th, .js .checked td {
 	background: #CEE0FC;
+}
+
+thead th {
+	text-align: center;
+	padding: .2em .5em;
 }
 
 thead th, thead td {
@@ -196,13 +202,17 @@ table code {
 }
 
 .error, .message {
-	background: transparent;
 	font-weight: bold;
-	padding: 0;
+	margin: 1em 20px 0 0;
 }
 
 .error {
 	color: #C00;
+}
+
+.error b {
+	background: #fff;
+	font-weight: normal;
 }
 
 .message {
@@ -258,7 +268,6 @@ table code {
 	background: #FCFAF5;
 	border-right: 5px solid #E4E2DA;
 	bottom: 0;
-	margin: 0;
 	overflow: auto;
 	padding: 10px 0 0 15px;
 	position: fixed;
@@ -277,7 +286,6 @@ table code {
 }
 
 #menu p {
-	border: none;
 	margin: 0 0 4px;
 	padding: 0 0 4px;
 	white-space: nowrap;
@@ -303,6 +311,7 @@ table code {
 	padding: 0 0 0 320px;
 	position: fixed;
 	width: 100%;
+	white-space: nowrap;
 }
 
 #breadcrumb a {
@@ -318,10 +327,6 @@ table code {
 #schema .table {
 	background: #F3F3F3;
 	padding: 4px 8px;
-}
-
-#logins a, #tables a {
-	background: transparent;
 }
 
 
@@ -495,9 +500,12 @@ input[name="logout"] {
 
 /* paginator */
 .pages {
+	position: fixed;
+	left: 320px;
+	bottom: 0;
+	padding: 5px;
 	background: #FCFAF5;
 	border: 1px dotted #CCC;
-	left: 320px;
 }
 
 .pages a[href*="&page="] {
@@ -505,4 +513,65 @@ input[name="logout"] {
 	padding: .2em .5em;
 	border: 1px solid #9AAFE5;
 	text-decoration: none;
+}
+
+
+/* default */
+a.text { text-decoration: none; }
+form { margin: 0; }
+img { vertical-align: middle; border: 0; }
+td img { max-width: 200px; max-height: 200px; }
+pre { margin: 1em 0 0; }
+input.default { box-shadow: 1px 1px 1px #777; }
+.block { display: block; }
+.version { color: #777; font-size: 67%; }
+.js .hidden, .nojs .jsonly { display: none; }
+.js .column { position: absolute; background: #ddf; padding: .3em 1ex .3em 0; margin-top: -.3em; }
+.nowrap td, .nowrap th, td.nowrap { white-space: pre; }
+.wrap td { white-space: normal; }
+.char { color: #007F00; }
+.date { color: #7F007F; }
+.enum { color: #007F7F; }
+.binary { color: red; }
+.time { color: silver; font-size: 70%; }
+.function { text-align: right; }
+.number { text-align: right; }
+.datetime { text-align: right; }
+.type { width: 15ex; width: auto\9; }
+.options select { width: 20ex; width: auto\9; }
+.active { font-weight: bold; }
+.icon { width: 18px; height: 18px; }
+.size { width: 6ex; }
+.help { cursor: help; }
+#dbs { overflow: hidden; }
+#logins, #tables { white-space: nowrap; overflow: auto; text-overflow: ellipsis; }
+#logout { background: none; border: none; color: blue; font: inherit; padding: 0; text-decoration: underline; cursor: pointer; }
+#logout:hover { color: red; }
+#h1 { color: #777; text-decoration: none; font-style: italic; }
+#version { font-size: 67%; color: red; }
+#schema { margin-left: 60px; position: relative; -moz-user-select: none; -webkit-user-select: none; }
+#schema .table { border: 1px solid silver; padding: 0 2px; cursor: move; position: absolute; }
+#schema .references { position: absolute; }
+
+.rtl h2 { margin: 0 -18px 20px 0; }
+.rtl p, .rtl table, .rtl .error, .rtl .message { margin: 1em 0 0 20px; }
+.rtl #content { margin: 2em 21em 0 0; padding: 10px 0 20px 20px; }
+.rtl #breadcrumb { left: auto; right: 21em; margin: 0 -18px 0 0; }
+.rtl #lang, .rtl #menu { left: auto; right: 0; }
+
+@media all and (max-device-width: 880px) {
+	.pages { left: auto; }
+	#menu { position: static; width: auto; }
+	#content { margin-left: 10px; }
+	#lang { position: static; border-top: 1px solid #999; }
+	#breadcrumb { left: auto; }
+	.rtl #content { margin-right: 10px; }
+	.rtl #breadcrumb { right: auto; }
+}
+
+@media print {
+	#lang, #menu { display: none; }
+	#content { margin-left: 1em; }
+	#breadcrumb { left: 1em; }
+	.nowrap td, .nowrap th, td.nowrap { white-space: normal; }
 }

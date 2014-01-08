@@ -1,5 +1,9 @@
 <?php
 
+if (@$_GET['file'] === 'default.css') {
+	return;
+}
+
 function adminer_object() {
     // required to run any plugin
     include_once dirname(__FILE__) . '/plugins/plugin.php';
