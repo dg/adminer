@@ -141,6 +141,7 @@ code a:hover {
 }
 
 table {
+	clear: both;
 	border: 1px solid #D0CDC4;
 	margin: 4px 0 8px;
 }
@@ -288,11 +289,11 @@ table code {
 #menu p {
 	margin: 0 0 4px;
 	padding: 0 0 4px;
-	white-space: nowrap;
 }
 
 #tables {
 	padding-bottom: 1em;
+	white-space: nowrap;
 }
 
 #tables a.active + a {
@@ -329,6 +330,9 @@ table code {
 	padding: 4px 8px;
 }
 
+.links a {
+	white-space: nowrap;
+}
 
 
 /* icons */
@@ -518,15 +522,18 @@ input[name="logout"] {
 
 /* default */
 a.text { text-decoration: none; }
+a.jush-help:hover { color: inherit; }
 form { margin: 0; }
+td table { width: 100%; margin: 0; }
 img { vertical-align: middle; border: 0; }
 td img { max-width: 200px; max-height: 200px; }
 pre { margin: 1em 0 0; }
 input.default { box-shadow: 1px 1px 1px #777; }
+input.required { box-shadow: 1px 1px 1px red; }
 .block { display: block; }
 .version { color: #777; font-size: 67%; }
 .js .hidden, .nojs .jsonly { display: none; }
-.js .column { position: absolute; background: #ddf; padding: .3em 1ex .3em 0; margin-top: -.3em; }
+.js .column { position: absolute; background: #ddf; padding: .27em 1ex .3em 0; margin-top: -.27em; }
 .nowrap td, .nowrap th, td.nowrap { white-space: pre; }
 .wrap td { white-space: normal; }
 .char { color: #007F00; }
@@ -539,22 +546,25 @@ input.default { box-shadow: 1px 1px 1px #777; }
 .datetime { text-align: right; }
 .type { width: 15ex; width: auto\9; }
 .options select { width: 20ex; width: auto\9; }
+.view { font-style: italic; }
 .active { font-weight: bold; }
-.icon { width: 18px; height: 18px; }
+.icon { width: 18px; height: 18px; background-color: navy; }
+.icon:hover { background-color: red; }
 .size { width: 6ex; }
 .help { cursor: help; }
+.logout { margin-top: .5em; position: absolute; top: 0; right: 0; }
 #dbs { overflow: hidden; }
-#logins, #tables { white-space: nowrap; overflow: auto; text-overflow: ellipsis; }
-#logout { background: none; border: none; color: blue; font: inherit; padding: 0; text-decoration: underline; cursor: pointer; }
-#logout:hover { color: red; }
+#logins, #tables { white-space: nowrap; overflow: auto; }
 #h1 { color: #777; text-decoration: none; font-style: italic; }
 #version { font-size: 67%; color: red; }
 #schema { margin-left: 60px; position: relative; -moz-user-select: none; -webkit-user-select: none; }
 #schema .table { border: 1px solid silver; padding: 0 2px; cursor: move; position: absolute; }
 #schema .references { position: absolute; }
+#help { position: absolute; border: 1px solid #999; background: #eee; padding: 5px; font-family: monospace; z-index: 1; }
 
 .rtl h2 { margin: 0 -18px 20px 0; }
 .rtl p, .rtl table, .rtl .error, .rtl .message { margin: 1em 0 0 20px; }
+.rtl .logout { left: 0; right: auto; }
 .rtl #content { margin: 2em 21em 0 0; padding: 10px 0 20px 20px; }
 .rtl #breadcrumb { left: auto; right: 21em; margin: 0 -18px 0 0; }
 .rtl #lang, .rtl #menu { left: auto; right: 0; }
