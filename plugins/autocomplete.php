@@ -7,16 +7,13 @@
  */
 class AdminerAutocomplete
 {
-	var $keywords = array('SELECT', 'FROM', 'LEFT JOIN', 'INSERT INTO', 'UPDATE', 'DELETE', 'WHERE', 'ORDER BY', 'GROUP BY');
-
 	function head()
 	{
 		if (!isset($_GET['sql'])) {
 			return;
 		}
 
-		$tables = array_keys(tables_list());
-    	$suggests = array_merge($this->keywords, $tables);
+		$suggests = $tables = array_keys(tables_list());
 		foreach ($tables as $table) {
 			foreach (fields($table) as $field => $foo) {
 				$suggests[] = "$table.$field";
