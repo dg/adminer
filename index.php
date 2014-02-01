@@ -1,6 +1,7 @@
 <?php
 
 if (@$_GET['file'] === 'default.css') {
+	header('Content-Type: text/css');
 	return;
 }
 
