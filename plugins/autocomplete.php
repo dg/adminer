@@ -29,7 +29,7 @@ $(function(){
 		return;
 	}
 
-    $('.sqlarea').removeClass('jush-sql').asuggest(['<?php echo implode("', '", str_replace("'\\", '', $suggests)) ?>'], {
+    $('.sqlarea').asuggest(['<?php echo implode("', '", str_replace("'\\", '', $suggests)) ?>'], {
         stopSuggestionKeys: [$.asuggestKeys.TAB, $.asuggestKeys.RETURN, $.asuggestKeys.SPACE, 190 /* PERIOD */],
         ignoreCase: true
     });

@@ -13,6 +13,7 @@ function adminer_object() {
 	}
 
 	$plugins = array(
+		new AdminerDisableJush,
 		new AdminerAutocomplete,
 		new AdminerSaveMenuPos,
 	);
