@@ -14,6 +14,7 @@ function adminer_object() {
 
 	$plugins = array(
 		new AdminerAutocomplete,
+		new AdminerSaveMenuPos,
 	);
 
 	return new AdminerPlugin($plugins);
