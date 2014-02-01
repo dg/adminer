@@ -30,7 +30,7 @@ $(function(){
 	}
 
     $('.sqlarea').asuggest(['<?php echo implode("', '", str_replace("'\\", '', $suggests)) ?>'], {
-        stopSuggestionKeys: [$.asuggestKeys.TAB, $.asuggestKeys.RETURN, $.asuggestKeys.SPACE, 190 /* PERIOD */],
+        stopSuggestionKeys: [$.asuggestKeys.RETURN, 190 /* PERIOD */],
         ignoreCase: true
     });
 });
