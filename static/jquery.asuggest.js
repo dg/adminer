@@ -149,7 +149,8 @@
         };
 
         $area.keydown(function (e) {
-            if (e.keyCode === KEY.TAB) {
+            switch (e.keyCode) {
+            case KEY.TAB:
                 if ($area.options.cycleOnTab) {
                     var chunk = $area.getChunk();
                     if (chunk.length >= $area.options.minChunkSize) {
@@ -161,7 +162,19 @@
                     $.asuggestFocused = this;
                     return false;
                 }
+                break;
+
+            case KEY.ESC:
+            case KEY.UP:
+            case KEY.DOWN:
+            case KEY.LEFT:
+            case KEY.RIGHT:
+                if ($area.options.autoComplete) {
+                    $area.replaceSelection("");
+                }
+                break;
             }
+
             // Check for conditions to stop suggestion
             if ($area.getSelection().length &&
                     $.inArray(e.keyCode, $area.options.stopSuggestionKeys) !== -1) {
@@ -196,13 +209,8 @@
                 if (!hasSpecialKeysOrShift && $area.options.cycleOnTab) {
                     break;
                 }
-            case KEY.ESC:
             case KEY.BACKSPACE:
             case KEY.DEL:
-            case KEY.UP:
-            case KEY.DOWN:
-            case KEY.LEFT:
-            case KEY.RIGHT:
                 if (!hasSpecialKeysOrShift && $area.options.autoComplete) {
                     $area.replaceSelection("");
                 }
