@@ -566,6 +566,7 @@ input.required { box-shadow: 1px 1px 1px red; }
 .size { width: 6ex; }
 .help { cursor: help; }
 .logout { margin-top: .5em; position: absolute; top: 0; right: 0; }
+.loadmore { margin-left: 1ex; }
 #dbs { overflow: hidden; }
 #logins, #tables { white-space: nowrap; overflow: auto; }
 #h1 { color: #777; text-decoration: none; font-style: italic; }
