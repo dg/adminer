@@ -21,18 +21,11 @@ class AdminerAutocomplete
 		}
 		?>
 <script type="text/javascript" src="static/jquery.min.js"></script>
-<script type="text/javascript" src="static/jquery.a-tools.js"></script>
-<script type="text/javascript" src="static/jquery.asuggest.js"></script>
+<script type="text/javascript" src="static/tabcomplete/tabcomplete.js"></script>
+<style>.hint { color: #bdc3c7; }</style>
 <script type="text/javascript">
 $(function(){
-	if (navigator.appName == 'Microsoft Internet Explorer') {
-		return;
-	}
-
-    $('.sqlarea').asuggest(['<?php echo implode("', '", str_replace("'\\", '', $suggests)) ?>'], {
-        stopSuggestionKeys: [$.asuggestKeys.RETURN, 190 /* PERIOD */],
-        ignoreCase: true
-    });
+    $('.sqlarea').tabcomplete(['<?php echo implode("', '", str_replace("'\\", '', $suggests)) ?>']);
 });
 </script>
 <?php
