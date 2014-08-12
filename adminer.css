@@ -289,6 +289,10 @@ table code {
 	padding: 0 0 4px;
 }
 
+#logins a {
+	display: block;
+}
+
 #tables {
 	padding-bottom: 1em;
 	white-space: nowrap;
