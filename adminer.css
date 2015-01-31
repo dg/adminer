@@ -18,6 +18,19 @@ body {
 	margin: 0;
 }
 
+html.remote, html.remote #breadcrumb, html.remote #lang {
+	border-top: 5px solid #DD1818;
+}
+
+html.remote body {
+	border-top-width: 35px;
+}
+
+html.remote #breadcrumb, html.remote #lang {
+	height: 35px;
+	line-height: 35px;
+}
+
 /* generic */
 a, a:visited {
 	padding: 2px 4px;
