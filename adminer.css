@@ -582,7 +582,7 @@ input.required { box-shadow: 1px 1px 1px red; }
 .icon:hover { background-color: red; }
 .size { width: 6ex; }
 .help { cursor: help; }
-.logout { margin-top: .5em; position: absolute; top: 0; right: 0; z-index: 1; }
+.logout { margin-top: .5em; position: fixed; top: 0; right: 0; z-index: 1; }
 .loadmore { margin-left: 1ex; }
 #dbs { overflow: hidden; }
 #logins, #tables { white-space: nowrap; overflow: auto; }
