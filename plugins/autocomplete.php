@@ -25,7 +25,7 @@ class AdminerAutocomplete
 <style>.hint { color: #bdc3c7; }</style>
 <script type="text/javascript">
 $(function(){
-    $('.sqlarea').tabcomplete(['<?php echo implode("', '", str_replace("'\\", '', $suggests)) ?>']);
+	$('.sqlarea').tabcomplete(['<?php echo implode("', '", str_replace("'\\", '', $suggests)) ?>']);
 });
 </script>
 <?php
