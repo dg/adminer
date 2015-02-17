@@ -1,14 +1,7 @@
 /*!
  * tabcomplete
- * Lightweight tab completion for inputs and textareas
- *
- * Source:
- * https://github.com/erming/tabcomplete
- *
- * Copyright (c) 2014 Mattias Erming <mattias@mattiaserming.com>
- * Licensed under the MIT License.
- *
- * Version 1.3.1
+ * http://github.com/erming/tabcomplete
+ * v1.3.1
  */
 (function($) {
 	var keys = {
@@ -16,6 +9,17 @@
 		tab: 9,
 		up: 38,
 		down: 40
+	};
+
+	$.tabcomplete = {};
+	$.tabcomplete.defaultOptions = {
+		after: "",
+		arrowKeys: false,    // Allow the use of <up> and <down> keys to iterate
+		hint: "placeholder", // "placeholder", "select", false
+		match: match,
+		caseSensitive: false,
+		minLength: 1,
+		wrapInput: true
 	};
 
 	$.fn.tab = // Alias
@@ -33,13 +37,10 @@
 		}
 
 		// Set default options.
-		options = $.extend({
-			after: "",
-			arrowKeys: false,
-			caseSensitive: false,
-			hint: "placeholder",
-			minLength: 1
-		}, options);
+		this.options = options = $.extend(
+			$.tabcomplete.defaultOptions,
+			options
+		);
 
 		// Remove any leftovers.
 		// This allows us to override the plugin if necessary.
@@ -77,14 +78,8 @@
 			// Check for matches if the current word is the last word.
 			if (self[0].selectionStart == input.length
 				&& word.length) {
-				if (typeof args === "function") {
-					// If the user supplies a function, invoke it
-					// and keep the result.
-					words = args(word);
-				} else {
-					// Otherwise, call the .match() function.
-					words = match(word, args, options.caseSensitive);
-				}
+				// Call the match() function to filter the words.
+				words = options.match(word, args, options.caseSensitive);
 
 				// Append 'after' to each word.
 				if (options.after) {
@@ -148,7 +143,7 @@
 				}
 
 				// Update element with the completed text.
-				var text = value.substr(0, self[0].selectionStart - last.length) + word;
+				var text = options.hint == "select" ? value : value.substr(0, self[0].selectionStart - last.length) + word;
 				self.val(text);
 
 				// Put the cursor at the end after completion.
@@ -217,9 +212,11 @@
 		// Lets create a clone of the input if it does
 		// not already exist.
 		if (!clone.length) {
-			input.wrap(
-				$("<div>").css({position: "relative"})
-			);
+			if (input.options.wrapInput) {
+				input.wrap(
+					$("<div>").css({position: "relative", height: input.css("height"), display: input.css("display")})
+				);
+			}
 			clone = input
 				.clone()
 				.attr("tabindex", -1)
