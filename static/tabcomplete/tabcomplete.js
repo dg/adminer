@@ -250,6 +250,9 @@
 			clone.css({
 				position: "absolute",
 			});
+			input.on("scroll.tabcomplete", function() {
+				clone.scrollTop(input.scrollTop()).scrollLeft(input.scrollLeft());
+			});
 		}
 
 		var hint = "";
@@ -258,7 +261,7 @@
 			hint = value + word.substr(value.split(/ |\n/).pop().length);
 		}
 
-		clone.val(hint);
+		clone.val(hint).scrollTop(input.scrollTop()).scrollLeft(input.scrollLeft());
 	}
 
 	// Hint by selecting part of the suggested word.
