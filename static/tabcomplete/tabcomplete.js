@@ -249,9 +249,16 @@
 				.insertBefore(input);
 			clone.css({
 				position: "absolute",
+				borderColor: "transparent"
 			});
 			input.on("scroll.tabcomplete", function() {
 				clone.scrollTop(input.scrollTop()).scrollLeft(input.scrollLeft());
+			});
+			input.on("mousemove.tabcomplete mouseup.tabcomplete", function() {
+				clone.css({width: input.css("width"), height: input.css("height")});
+				if (input.options.wrapInput) {
+					clone.parent().css({height: input.css("height")});
+				}
 			});
 		}
 
