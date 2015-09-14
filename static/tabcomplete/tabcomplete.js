@@ -1,7 +1,7 @@
 /*!
  * tabcomplete
  * http://github.com/erming/tabcomplete
- * v1.3.1
+ * v1.5.0-fix
  */
 (function($) {
 	var keys = {
@@ -111,9 +111,6 @@
 			if (key == keys.tab
 				|| (options.arrowKeys && (key == keys.up || key == keys.down))) {
 
-				// Don't lose focus on tab click.
-				e.preventDefault();
-
 				// Iterate the matches with tab and the up and down keys by incrementing
 				// or decrementing the 'i' variable.
 				if (key != keys.up) {
@@ -130,11 +127,24 @@
 
 				// Get next match.
 				var word = words[i % words.length];
+				var value = self.val();
 				if (!word) {
+					if (key == keys.tab) {
+						// Don't lose focus on tab click.
+						e.preventDefault();
+
+						var pos = self[0].selectionStart;
+						if (pos === self[0].selectionEnd) {
+							self.val(value.substr(0, pos) + "\t" + value.substr(pos));
+							self[0].selectionStart = self[0].selectionEnd = pos + 1;
+							hint.call(self, "");
+						}
+					}
 					return;
 				}
 
-				var value = self.val();
+				e.preventDefault();
+
 				last = last || value.split(/ |\n/).pop();
 
 				// Return if the 'minLength' requirement isn't met.
