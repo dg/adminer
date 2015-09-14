@@ -71,9 +71,7 @@
 			var word = input.split(/ |\n/).pop();
 
 			// Reset iteration.
-			i = -1;
-			last = "";
-			words = [];
+			reset();
 
 			// Check for matches if the current word is the last word.
 			if (self[0].selectionStart == input.length
@@ -181,12 +179,28 @@
 				// Reset iteration.
 				i = -1;
 				last = "";
+			} else if (options.hint) {
+				reset();
+				hint.call(self, "");
 			}
 		});
 
 		if (options.hint) {
 			// If enabled, turn on hinting.
 			hint.call(this, "");
+		}
+
+		this.on("mousedown.tabcomplete", function() {
+			reset();
+			if (options.hint) {
+				hint.call(self, "");
+			}
+		});
+
+		function reset() {
+			i = -1;
+			last = "";
+			words = [];
 		}
 
 		return this;
