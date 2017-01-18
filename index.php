@@ -37,6 +37,7 @@ function adminer_object() {
 		new AdminerAutocomplete,
 		new AdminerSaveMenuPos,
 		new AdminerRemoteColor,
+		new AdminerDumpPhpPrototype,
 	);
 
 	return new AdminerPlugin($plugins);
