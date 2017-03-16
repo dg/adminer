@@ -8,33 +8,103 @@
 class AdminerDumpPhpPrototype {
 	var $output = array();
 	var $shutdown_callback = false;
+	var $typePatterns = array(
+		'^_' => 'string', // PostgreSQL arrays
+		'(TINY|SMALL|SHORT|MEDIUM|BIG|LONG)(INT)?|INT(EGER|\d+| IDENTITY)?|(SMALL|BIG|)SERIAL\d*|COUNTER|YEAR|BYTE|LONGLONG|UNSIGNED BIG INT' => 'int',
+		'(NEW)?DEC(IMAL)?(\(.*)?|NUMERIC|REAL|DOUBLE( PRECISION)?|FLOAT\d*|(SMALL)?MONEY|CURRENCY|NUMBER' => 'float',
+		'BOOL(EAN)?' => 'bool',
+		'TIME' => 'time',
+		'DATE' => 'date',
+		'(SMALL)?DATETIME(OFFSET)?\d*|TIME(STAMP.*)?' => 'datetime',
+		'BYTEA|(TINY|MEDIUM|LONG|)BLOB|(LONG )?(VAR)?BINARY|IMAGE' => 'binary',
+	);
 
 	function dumpFormat() {
-		return array('code' => 'Code');
+		return array('code-insert' => 'Nette Database', 'code-form' => 'Nette Form');
 	}
 
 	function dumpHeaders() {
-		if ($_POST['format'] == 'code') {
+		if ($_POST['format'] == 'code-insert' || $_POST['format'] == 'code-form') {
 			header('Content-Type: text/plain; charset=utf-8');
-			return 'code';
+			return $_POST['format'];
 		}
 	}
 
 	function dumpTable($table) {
-		if ($_POST['format'] == 'code') {
+		if ($_POST['format'] == 'code-insert') {
 			echo "\$db->query('INSERT INTO $table', [\n";
 			foreach (fields($table) as $field => $foo) {
 				echo "\t'$field' => \$$field,\n";
 			}
 			echo "]);\n\n";
 			return true;
-		}
-	}
 
-	function dumpData($table, $style, $query) {
-		if ($_POST['format'] == 'code') {
+		} elseif ($_POST['format'] == 'code-form') {
+			foreach (fields($table) as $field => $info) {
+				if (!empty($info['auto_increment'])) {
+					continue;
+				}
+
+				$args = var_export($field, TRUE) . ', ' . var_export(ucfirst($field) . ':', TRUE);
+				$lenghtArgs = $info['length'] ? ', NULL, ' . (int) $info['length'] : '';
+				$type = $this->detectType($info['type']);
+
+				if ($type === 'bool' || $info['type'] === 'tinyint') {
+					echo "\$form->addCheckbox($args)";
+				} elseif ($type === 'int' && strpos($field, '_id')) {
+					echo "\$form->addSelect($args)";
+				} elseif ($type === 'int') {
+					echo "\$form->addInteger($args)";
+				} elseif ($type === 'datetime') {
+					echo "\$form->addText($args)\n\t->setType('datetime-local')";
+				} elseif ($type === 'date') {
+					echo "\$form->addText($args)\n\t->setType('date')";
+				} elseif ($type === 'time') {
+					echo "\$form->addText($args)\n\t->setType('time')";
+				} elseif ($type === 'float') {
+					echo "\$form->addText($args)\n\t->addRule(\$form::FLOAT)";
+				} elseif ($type === 'string' && strpos($info['type'], 'text') === FALSE) {
+					if (strpos($field, 'email') === FALSE) {
+						echo "\$form->addText($args$lenghtArgs)";
+					} else {
+						echo "\$form->addEmail($args$lenghtArgs)";
+					}
+				} elseif ($type === 'string') {
+					echo "\$form->addTextArea($args)";
+				} else {
+					echo "\$form->addText($args$lenghtArgs)";
+				}
+
+				if (!$info['null']) {
+					echo "\n\t->setRequired()";
+				}
+
+				echo ";\n";
+			}
+			echo "\$form->addSubmit('send');\n";
+			echo "\$form->onSuccess[] = [\$this, 'formSucceeded'];\n";
+			echo "\n\n";
 			return true;
 		}
 	}
 
+	function dumpData($table, $style, $query) {
+		if ($_POST['format'] == 'code-insert' || $_POST['format'] == 'code-form') {
+			return true;
+		}
+	}
+
+	function detectType($type)
+	{
+		static $cache;
+		if (!isset($cache[$type])) {
+			$cache[$type] = 'string';
+			foreach ($this->typePatterns as $s => $val) {
+				if (preg_match("#^($s)$#i", $type)) {
+					return $cache[$type] = $val;
+				}
+			}
+		}
+		return $cache[$type];
+	}
 }
