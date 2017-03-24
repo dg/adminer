@@ -13,6 +13,12 @@ Customizations for [Adminer](https://www.adminer.org), the best database managem
 Installation
 ------------
 
+#### How to use this as Docker image
+```
+# docker run --link some_database:db -p 8080:8080 youlogin/adminer-custom
+```	
+#### As composer package
+
 ```
 composer require dg/adminer-custom
 ```
