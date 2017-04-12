@@ -45,12 +45,14 @@ class AdminerDumpPhpPrototype {
 					continue;
 				}
 
-				$args = var_export($field, TRUE) . ', ' . var_export(ucfirst($field) . ':', TRUE);
+				$label = ucfirst(str_replace('_', ' ', $field));
+				$args = var_export($field, TRUE) . ', ' . var_export($label . ':', TRUE);
 				$lenghtArgs = $info['length'] ? ', NULL, ' . (int) $info['length'] : '';
 				$type = $this->detectType($info['type']);
 
 				if ($type === 'bool' || $info['type'] === 'tinyint') {
-					echo "\$form->addCheckbox($args)";
+					echo '$form->addCheckbox(', var_export($field, TRUE), ', ', var_export($label, TRUE), ')';
+					$info['null'] = TRUE;
 				} elseif ($type === 'int' && strpos($field, '_id')) {
 					echo "\$form->addSelect($args)";
 				} elseif ($type === 'int') {
