@@ -589,7 +589,8 @@ input.required { box-shadow: 1px 1px 1px red; }
 .logout { margin-top: .5em; position: fixed; top: 0; right: 0; z-index: 1; }
 .loadmore { margin-left: 1ex; }
 #dbs { overflow: hidden; }
-#logins, #tables { white-space: nowrap; overflow: auto; }
+#tables { white-space: nowrap; overflow: auto; }
+#logins a{ width: 100%; display: inline-block; }
 #h1 { color: #777; text-decoration: none; font-style: italic; }
 #version { font-size: 67%; color: red; }
 #schema { margin-left: 60px; position: relative; -moz-user-select: none; -webkit-user-select: none; }
