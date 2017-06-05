@@ -54,8 +54,6 @@ class AdminerDumpPhpPrototype
 
 				$label = ucfirst(str_replace('_', ' ', $field));
 				$args = var_export($field, true) . ', ' . var_export($label . ':', true);
-				$length = (int) $info['length'];
-				$lenghtArgs = $info['length'] ? ', null, ' . $length : '';
 				$type = $this->detectType($info['type']);
 
 				if ($type === 'bool' || $info['type'] === 'tinyint') {
@@ -75,21 +73,23 @@ class AdminerDumpPhpPrototype
 					echo "\$form->addText($args)\n\t->addRule(\$form::FLOAT)";
 				} elseif ($type === 'string' && strpos($info['type'], 'text') === false) {
 					if (strpos($field, 'email') === false) {
-						echo "\$form->addText($args$lenghtArgs)";
+						echo "\$form->addText($args)";
 					} else {
 						echo "\$form->addEmail($args)";
-						if ($length) {
-							echo "\n\t->addRule(\$form::MAX_LENGTH, null, $length)";
-						}
 					}
 				} elseif ($type === 'string') {
 					echo "\$form->addTextArea($args)";
 				} else {
-					echo "\$form->addText($args$lenghtArgs)";
+					echo "\$form->addText($args)";
 				}
 
 				if (!$info['null']) {
 					echo "\n\t->setRequired()";
+				}
+
+				$length = (int) $info['length'];
+				if ($length && $type === 'string') {
+					echo "\n\t->addRule(\$form::MAX_LENGTH, null, $length)";
 				}
 
 				echo ";\n";
