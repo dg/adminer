@@ -46,13 +46,13 @@ class AdminerDumpPhpPrototype {
 				}
 
 				$label = ucfirst(str_replace('_', ' ', $field));
-				$args = var_export($field, TRUE) . ', ' . var_export($label . ':', TRUE);
-				$lenghtArgs = $info['length'] ? ', NULL, ' . (int) $info['length'] : '';
+				$args = var_export($field, true) . ', ' . var_export($label . ':', true);
+				$lenghtArgs = $info['length'] ? ', null, ' . (int) $info['length'] : '';
 				$type = $this->detectType($info['type']);
 
 				if ($type === 'bool' || $info['type'] === 'tinyint') {
-					echo '$form->addCheckbox(', var_export($field, TRUE), ', ', var_export($label, TRUE), ')';
-					$info['null'] = TRUE;
+					echo '$form->addCheckbox(', var_export($field, true), ', ', var_export($label, true), ')';
+					$info['null'] = true;
 				} elseif ($type === 'int' && strpos($field, '_id')) {
 					echo "\$form->addSelect($args)";
 				} elseif ($type === 'int') {
@@ -65,8 +65,8 @@ class AdminerDumpPhpPrototype {
 					echo "\$form->addText($args)\n\t->setType('time')";
 				} elseif ($type === 'float') {
 					echo "\$form->addText($args)\n\t->addRule(\$form::FLOAT)";
-				} elseif ($type === 'string' && strpos($info['type'], 'text') === FALSE) {
-					if (strpos($field, 'email') === FALSE) {
+				} elseif ($type === 'string' && strpos($info['type'], 'text') === false) {
+					if (strpos($field, 'email') === false) {
 						echo "\$form->addText($args$lenghtArgs)";
 					} else {
 						echo "\$form->addEmail($args$lenghtArgs)";
