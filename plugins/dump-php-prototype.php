@@ -47,7 +47,8 @@ class AdminerDumpPhpPrototype {
 
 				$label = ucfirst(str_replace('_', ' ', $field));
 				$args = var_export($field, true) . ', ' . var_export($label . ':', true);
-				$lenghtArgs = $info['length'] ? ', null, ' . (int) $info['length'] : '';
+				$length = (int) $info['length'];
+				$lenghtArgs = $info['length'] ? ', null, ' . $length : '';
 				$type = $this->detectType($info['type']);
 
 				if ($type === 'bool' || $info['type'] === 'tinyint') {
@@ -69,7 +70,10 @@ class AdminerDumpPhpPrototype {
 					if (strpos($field, 'email') === false) {
 						echo "\$form->addText($args$lenghtArgs)";
 					} else {
-						echo "\$form->addEmail($args$lenghtArgs)";
+						echo "\$form->addEmail($args)";
+						if ($length) {
+							echo "\n\t->addRule(\$form::MAX_LENGTH, null, $length)";
+						}
 					}
 				} elseif ($type === 'string') {
 					echo "\$form->addTextArea($args)";
