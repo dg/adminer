@@ -6,9 +6,9 @@
  * @license BSD
  */
 class AdminerDumpPhpPrototype {
-	var $output = array();
+	var $output = [];
 	var $shutdown_callback = false;
-	var $typePatterns = array(
+	var $typePatterns = [
 		'^_' => 'string', // PostgreSQL arrays
 		'(TINY|SMALL|SHORT|MEDIUM|BIG|LONG)(INT)?|INT(EGER|\d+| IDENTITY)?|(SMALL|BIG|)SERIAL\d*|COUNTER|YEAR|BYTE|LONGLONG|UNSIGNED BIG INT' => 'int',
 		'(NEW)?DEC(IMAL)?(\(.*)?|NUMERIC|REAL|DOUBLE( PRECISION)?|FLOAT\d*|(SMALL)?MONEY|CURRENCY|NUMBER' => 'float',
@@ -17,10 +17,10 @@ class AdminerDumpPhpPrototype {
 		'DATE' => 'date',
 		'(SMALL)?DATETIME(OFFSET)?\d*|TIME(STAMP.*)?' => 'datetime',
 		'BYTEA|(TINY|MEDIUM|LONG|)BLOB|(LONG )?(VAR)?BINARY|IMAGE' => 'binary',
-	);
+	];
 
 	function dumpFormat() {
-		return array('code-insert' => 'Nette Database', 'code-form' => 'Nette Form');
+		return ['code-insert' => 'Nette Database', 'code-form' => 'Nette Form'];
 	}
 
 	function dumpHeaders() {

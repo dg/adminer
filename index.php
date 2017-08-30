@@ -16,7 +16,7 @@ if (empty($_GET['file'])) {
 	header('Expires: ' . gmdate('D, d M Y H:i:s', strtotime('1 month')) . ' GMT');
 	header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
 
-	$types = array('css' => 'text/css', 'js' => 'text/javascript', 'gif' => 'image/gif', 'png' => 'image/png');
+	$types = ['css' => 'text/css', 'js' => 'text/javascript', 'gif' => 'image/gif', 'png' => 'image/png'];
 	if (isset($types[$m[3]])) {
 		header('Content-Type: ' . $types[$m[3]]);
 	}
@@ -26,21 +26,21 @@ if (empty($_GET['file'])) {
 
 
 function adminer_object() {
-	include_once dirname(__FILE__) . '/plugins/plugin.php';
+	include_once __DIR__ . '/plugins/plugin.php';
 
-	foreach (glob(dirname(__FILE__) . '/plugins/*.php') as $filename) {
+	foreach (glob(__DIR__ . '/plugins/*.php') as $filename) {
 		include_once $filename;
 	}
 
-	$plugins = array(
+	$plugins = [
 		new AdminerDisableJush,
 		new AdminerAutocomplete,
 		new AdminerSaveMenuPos,
 		new AdminerRemoteColor,
 		new AdminerDumpPhpPrototype,
-	);
+	];
 
 	return new AdminerPlugin($plugins);
 }
 
-include dirname(__FILE__) . '/adminer.php';
+include __DIR__ . '/adminer.php';

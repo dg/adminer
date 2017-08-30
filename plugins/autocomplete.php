@@ -7,10 +7,10 @@
  */
 class AdminerAutocomplete
 {
-	var $keywords = array(
+	var $keywords = [
 		'DELETE FROM', 'DISTINCT', 'EXPLAIN', 'FROM', 'GROUP BY', 'HAVING', 'INSERT INTO', 'INNER JOIN', 'IGNORE',
 		'LIMIT', 'LEFT JOIN', 'NULL', 'ORDER BY', 'ON DUPLICATE KEY UPDATE', 'SELECT', 'UPDATE', 'WHERE',
-	);
+	];
 
 	function head()
 	{
@@ -18,7 +18,7 @@ class AdminerAutocomplete
 			return;
 		}
 
-		$suggests = array();
+		$suggests = [];
 		foreach ($this->keywords as $keyword) {
 				$suggests[] = "$keyword ";
 		}
