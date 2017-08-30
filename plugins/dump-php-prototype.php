@@ -5,10 +5,11 @@
  * @author David Grudl
  * @license BSD
  */
-class AdminerDumpPhpPrototype {
-	var $output = [];
-	var $shutdown_callback = false;
-	var $typePatterns = [
+class AdminerDumpPhpPrototype
+{
+	public $output = [];
+	public $shutdown_callback = false;
+	public $typePatterns = [
 		'^_' => 'string', // PostgreSQL arrays
 		'(TINY|SMALL|SHORT|MEDIUM|BIG|LONG)(INT)?|INT(EGER|\d+| IDENTITY)?|(SMALL|BIG|)SERIAL\d*|COUNTER|YEAR|BYTE|LONGLONG|UNSIGNED BIG INT' => 'int',
 		'(NEW)?DEC(IMAL)?(\(.*)?|NUMERIC|REAL|DOUBLE( PRECISION)?|FLOAT\d*|(SMALL)?MONEY|CURRENCY|NUMBER' => 'float',
@@ -19,18 +20,24 @@ class AdminerDumpPhpPrototype {
 		'BYTEA|(TINY|MEDIUM|LONG|)BLOB|(LONG )?(VAR)?BINARY|IMAGE' => 'binary',
 	];
 
-	function dumpFormat() {
+
+	public function dumpFormat()
+	{
 		return ['code-insert' => 'Nette Database', 'code-form' => 'Nette Form'];
 	}
 
-	function dumpHeaders() {
+
+	public function dumpHeaders()
+	{
 		if ($_POST['format'] == 'code-insert' || $_POST['format'] == 'code-form') {
 			header('Content-Type: text/plain; charset=utf-8');
 			return $_POST['format'];
 		}
 	}
 
-	function dumpTable($table) {
+
+	public function dumpTable($table)
+	{
 		if ($_POST['format'] == 'code-insert') {
 			echo "\$db->query('INSERT INTO " . table($table) . "', [\n";
 			foreach (fields($table) as $field => $foo) {
@@ -94,13 +101,16 @@ class AdminerDumpPhpPrototype {
 		}
 	}
 
-	function dumpData($table, $style, $query) {
+
+	public function dumpData($table, $style, $query)
+	{
 		if ($_POST['format'] == 'code-insert' || $_POST['format'] == 'code-form') {
 			return true;
 		}
 	}
 
-	function detectType($type)
+
+	public function detectType($type)
 	{
 		static $cache;
 		if (!isset($cache[$type])) {

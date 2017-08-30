@@ -6,12 +6,11 @@
  */
 class AdminerSaveMenuPos
 {
-	function head()
+	public function head()
 	{
 		if (!DB) {
 			return;
-		}
-		?>
+		} ?>
 <script type="text/javascript">
 
 if (window.localStorage) {
@@ -33,5 +32,4 @@ if (window.localStorage) {
 </script>
 <?php
 	}
-
 }

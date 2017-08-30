@@ -7,8 +7,8 @@
  */
 class AdminerDisableJush
 {
-
-	function head() {
+	public function head()
+	{
 		?>
 <script type="text/javascript">
 (function(){
@@ -25,5 +25,4 @@ class AdminerDisableJush
 </script>
 <?php
 	}
-
 }
