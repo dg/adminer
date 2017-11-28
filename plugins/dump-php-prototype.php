@@ -95,6 +95,7 @@ class AdminerDumpPhpPrototype
 				echo ";\n";
 			}
 			echo "\$form->addSubmit('send');\n";
+			echo "\$form->addProtection();\n";
 			echo "\$form->onSuccess[] = [\$this, 'formSucceeded'];\n";
 			echo "\n\n";
 			return true;
