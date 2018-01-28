@@ -39,6 +39,7 @@ function adminer_object()
 		new AdminerSaveMenuPos,
 		new AdminerRemoteColor,
 		new AdminerDumpPhpPrototype,
+		new AdminerTablesFilter,
 	];
 
 	return new AdminerPlugin($plugins);
