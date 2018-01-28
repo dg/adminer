@@ -27,6 +27,13 @@ require __DIR__ . '/../../vendor/dg/adminer-custom/index.php'; // CHECK THAT PAT
 
 And then navigate your browser to this directory (i.e. `http://localhost/adminer`).
 
+Autologin
+---------
+
+If you want to login automatically (use that for non-public environment only, e.g. localhost), you can do that by setting environment variables `ADMINER_SERVER`, `ADMINER_USERNAME` and `ADMINER_PASSWORD`. If you want to be automatically redirected to https, set `ADMINER_HTTPS_REDIRECT` environment variable to `true`.
+
+Pro tip:
+You can set environment variables for the application with [symfony/dotenv](https://packagist.org/packages/symfony/dotenv) package (or another package that sets environment variables. Require this package with composer, autoload composer dependencies, load your `.env` file and include `index.php` as shown above. `.env` file should be put outside of `www` directory so it's not accessible via browser.
 
 Screenshots
 -----------
