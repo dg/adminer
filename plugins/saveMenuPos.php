@@ -11,7 +11,7 @@ class AdminerSaveMenuPos
 		if (!DB) {
 			return;
 		} ?>
-<script type="text/javascript">
+<script<?php echo nonce();?> type="text/javascript">
 
 if (window.localStorage) {
 	document.addEventListener('DOMContentLoaded', function() {
