@@ -44,16 +44,6 @@ function tablesFilterInput() {
 	window.clearTimeout(tablesFilterTimeout);
 	tablesFilterTimeout = window.setTimeout(tablesFilter, 200);
 }
-
-if (sessionStorage){
-	var db = qs('#dbs').querySelector('select');
-	db = db.options[db.selectedIndex].text;
-	if (db == sessionStorage.getItem('adminer_tables_filter_db') && sessionStorage.getItem('adminer_tables_filter')){
-		qs('#filter-field').value = sessionStorage.getItem('adminer_tables_filter');
-		tablesFilter();
-	}
-	sessionStorage.setItem('adminer_tables_filter_db', db);
-}
 </script>
 <?php echo script("qs('#filter-field').oninput = tablesFilterInput;"); ?>
 <ul id='tables'>
@@ -71,6 +61,17 @@ foreach ($tables as $table => $status) {
 }
 ?>
 </ul>
+<script<?php echo nonce();?>>
+if (sessionStorage){
+	var db = qs('#dbs').querySelector('select');
+	db = db.options[db.selectedIndex].text;
+	if (db == sessionStorage.getItem('adminer_tables_filter_db') && sessionStorage.getItem('adminer_tables_filter')){
+		qs('#filter-field').value = sessionStorage.getItem('adminer_tables_filter');
+		tablesFilter();
+	}
+	sessionStorage.setItem('adminer_tables_filter_db', db);
+}
+</script>
 <?php
 		return true;
 	}
