@@ -1,9 +1,11 @@
 <?php
 
+define('ASSETS_VERSION', '1');
+
 if (empty($_GET['file'])) {
 	ob_start(function ($s) {
 		return preg_replace_callback('#(<(link|script)\s[^>]*(href|src)=")(adminer\.css|static/.+)"#U', function ($m) {
-			return $m[1] . '?file=' . urlencode($m[4]) . '"';
+			return $m[1] . '?file=' . urlencode($m[4]) . '&amp;version=' . ASSETS_VERSION . '"';
 		}, $s);
 	}, 4096);
 
