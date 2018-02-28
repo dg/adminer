@@ -28,6 +28,12 @@ require __DIR__ . '/../../vendor/dg/adminer-custom/index.php'; // CHECK THAT PAT
 And then navigate your browser to this directory (i.e. `http://localhost/adminer`).
 
 
+Autologin
+---------
+
+If you want to login automatically (use that for non-public environment only, e.g. localhost), you can do that by setting environment variables `ADMINER_SERVER`, `ADMINER_USERNAME` and `ADMINER_PASSWORD`. If you want to be automatically redirected to https, set `ADMINER_HTTPS_REDIRECT` environment variable to `true`.
+
+
 Screenshots
 -----------
 
