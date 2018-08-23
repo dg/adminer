@@ -48,6 +48,7 @@ function adminer_object()
 		new AdminerRemoteColor,
 		new AdminerDumpPhpPrototype,
 		new AdminerTablesFilter,
+		new AdminerDumpJson,
 	];
 
 
