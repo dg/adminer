@@ -46,9 +46,9 @@ function adminer_object()
 		new AdminerAutocomplete,
 		new AdminerSaveMenuPos,
 		new AdminerRemoteColor,
+		new AdminerDumpJson,
 		new AdminerDumpPhpPrototype,
 		new AdminerTablesFilter,
-		new AdminerDumpJson,
 	];
 
 
