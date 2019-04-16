@@ -19,17 +19,27 @@ class AdminerDumpPhpPrototype
 		'(SMALL)?DATETIME(OFFSET)?\d*|TIME(STAMP.*)?' => 'datetime',
 		'BYTEA|(TINY|MEDIUM|LONG|)BLOB|(LONG )?(VAR)?BINARY|IMAGE' => 'binary',
 	];
+	public $phpTypes = [
+		'date' => 'DateTimeImmutable',
+		'datetime' => 'DateTimeImmutable',
+		'binary' => 'string',
+	];
+	private $formats = [
+		'code-insert' => 'Nette Database',
+		'code-form' => 'Nette Form',
+		'code-class' => 'Data Class',
+	];
 
 
 	public function dumpFormat()
 	{
-		return ['code-insert' => 'Nette Database', 'code-form' => 'Nette Form'];
+		return $this->formats;
 	}
 
 
 	public function dumpHeaders()
 	{
-		if ($_POST['format'] == 'code-insert' || $_POST['format'] == 'code-form') {
+		if (isset($this->formats[$_POST['format']])) {
 			header('Content-Type: text/plain; charset=utf-8');
 			return $_POST['format'];
 		}
@@ -99,13 +109,41 @@ class AdminerDumpPhpPrototype
 			echo "\$form->onSuccess[] = [\$this, 'formSucceeded'];\n";
 			echo "\n\n";
 			return true;
+
+		} elseif ($_POST['format'] == 'code-class') {
+			$class = ucwords(str_replace('_', ' ', $table));
+			$class = preg_replace('~\W~', '', $class) . 'FormData';
+			echo "class $class\n";
+			echo "{\n";
+			echo "\tuse Nette\\SmartObject;\n";
+			foreach (fields($table) as $field => $info) {
+				$type = $this->detectType($info['type']);
+				$type = $this->phpTypes[$type] ?? $type;
+				if ($info['null']) {
+					$type = '?' . $type;
+				}
+				if (PHP_VERSION_ID >= 70400) {
+					echo "\n\tpublic $type \$$field";
+				} else {
+					echo "\n\t/** @var $type */\n";
+					echo "\tpublic \$$field";
+				}
+				$default = $info['default'];
+				if ($default !== null) {
+					@settype($default, $type); // may be invalid type
+					echo ' = ' . var_export($default, true);
+				}
+				echo ";\n";
+			}
+			echo "}\n\n\n";
+			return true;
 		}
 	}
 
 
 	public function dumpData($table, $style, $query)
 	{
-		if ($_POST['format'] == 'code-insert' || $_POST['format'] == 'code-form') {
+		if (isset($this->formats[$_POST['format']])) {
 			return true;
 		}
 	}
