@@ -118,7 +118,7 @@ class AdminerDumpPhpPrototype
 			echo "\tuse Nette\\SmartObject;\n";
 			foreach (fields($table) as $field => $info) {
 				$type = $this->detectType($info['type']);
-				$type = $this->phpTypes[$type] ?? $type;
+				$type = !empty($this->phpTypes[$type]) ? $this->phpTypes[$type] : $type;
 				if ($info['null']) {
 					$type = '?' . $type;
 				}
