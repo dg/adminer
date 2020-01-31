@@ -2,9 +2,9 @@
 
 // Redirect to HTTPS if HTTPS_REDIRECT is defined in environment variables
 if (getenv('ADMINER_HTTPS_REDIRECT') === 'true' && (empty($_SERVER['HTTPS']) || $_SERVER['HTTPS'] === 'off')) {
-    header('HTTP/1.1 301 Moved Permanently');
-    header('Location: https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
-    exit();
+	header('HTTP/1.1 301 Moved Permanently');
+	header('Location: https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
+	exit();
 }
 
 define('ASSETS_VERSION', '1');
