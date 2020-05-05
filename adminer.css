@@ -101,7 +101,7 @@ select {
 }
 
 pre, textarea {
-	font: 16px/1.25 Consolas,monospace;
+	font: 13px/1.25 Consolas,monospace;
 }
 
 textarea {
