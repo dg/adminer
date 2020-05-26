@@ -22,7 +22,7 @@ Create file `index.php` somewhere in your document root, for example in subdirec
 ```php
 <?php
 touch(__DIR__ . '/adminer.css');
-require __DIR__ . '/../../vendor/dg/adminer-custom/index.php'; // CHECK THAT PATH IS CORRECT
+require __DIR__ . '/../../vendor/dg/adminer-custom/index.php'; // CHECK THAT THIS PATH IS CORRECT
 ```
 
 And then navigate your browser to this directory (i.e. `http://localhost/adminer`).
@@ -34,26 +34,34 @@ Autologin
 If you want to login automatically (use that for non-public environment only, e.g. localhost), you can do that by setting environment variables `ADMINER_SERVER`, `ADMINER_USERNAME` and `ADMINER_PASSWORD`. If you want to be automatically redirected to https, set `ADMINER_HTTPS_REDIRECT` environment variable to `true`.
 
 
-Screenshots
------------
+Login page
+----------
 
-### Login page
+![login page](https://dg.github.io/adminer-custom/images/screenshot1.png)
 
-![login page](http://dg.github.io/adminer-custom/images/screenshot1.png)
+Tables overview
+---------------
 
-### Tables overview
+![tables overview](https://dg.github.io/adminer-custom/images/screenshot2.png)
 
-![tables overview](http://dg.github.io/adminer-custom/images/screenshot2.png)
+Red top border indicates production server
+------------------------------------------
 
-### Red top border indicates production server
+![production server](https://dg.github.io/adminer-custom/images/screenshot3.png)
 
-![production server](http://dg.github.io/adminer-custom/images/screenshot3.png)
+Use `tab` for autocomplete
+--------------------------
 
-### Use `tab` for autocomplete
+![autocomplete](https://dg.github.io/adminer-custom/images/screenshot4.png)
 
-![autocomplete](http://dg.github.io/adminer-custom/images/screenshot4.png)
+Export as PHP code for [Nette Database](https://github.com/nette/database)
+--------------------------------------------------------------------------
 
-### Export as PHP code for [Nette Database](https://github.com/nette/database)
+![export](https://dg.github.io/adminer-custom/images/screenshot5.png?v1)
 
-![export](http://dg.github.io/adminer-custom/images/screenshot5.png)
-![export](http://dg.github.io/adminer-custom/images/screenshot6.png)
+Export as PHP code for [Nette Forms](https://github.com/nette/forms)
+--------------------------------------------------------------------------
+
+![export](https://dg.github.io/adminer-custom/images/screenshot6.png?v1)
+
+![export](https://dg.github.io/adminer-custom/images/screenshot7.png)
