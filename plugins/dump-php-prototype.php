@@ -40,7 +40,9 @@ class AdminerDumpPhpPrototype
 	public function dumpHeaders()
 	{
 		if (isset($this->formats[$_POST['format']])) {
-			header('Content-Type: text/plain; charset=utf-8');
+			echo '<script' . nonce() . ' type="text/javascript" src="static/prism.js"></script>';
+			echo '<link rel="stylesheet" href="static/prism.css">';
+			echo '<pre style="user-select:all"><code class="language-php">';
 			return $_POST['format'];
 		}
 	}
@@ -48,13 +50,13 @@ class AdminerDumpPhpPrototype
 
 	public function dumpTable($table)
 	{
+		ob_start();
 		if ($_POST['format'] == 'code-insert') {
 			echo "\$db->query('INSERT INTO " . table($table) . "', [\n";
 			foreach (fields($table) as $field => $foo) {
 				echo "\t'$field' => \$$field,\n";
 			}
 			echo "]);\n\n";
-			return true;
 
 		} elseif ($_POST['format'] == 'code-form') {
 			foreach (fields($table) as $field => $info) {
@@ -108,7 +110,6 @@ class AdminerDumpPhpPrototype
 			echo "\$form->addProtection();\n";
 			echo "\$form->onSuccess[] = [\$this, 'formSucceeded'];\n";
 			echo "\n\n";
-			return true;
 
 		} elseif ($_POST['format'] == 'code-class') {
 			$class = ucwords(str_replace('_', ' ', $table));
@@ -136,8 +137,14 @@ class AdminerDumpPhpPrototype
 				echo ";\n";
 			}
 			echo "}\n\n\n";
-			return true;
+
+		} else {
+			ob_end_clean();
+			return;
 		}
+
+		echo htmlspecialchars(ob_get_clean());
+		return true;
 	}
 
 
