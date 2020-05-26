@@ -115,7 +115,7 @@ class AdminerDumpPhpPrototype
 			$class = preg_replace('~\W~', '', $class) . 'FormData';
 			echo "class $class\n";
 			echo "{\n";
-			echo "\tuse Nette\\SmartObject;\n";
+			echo "\tuse Nette\\SmartObject;\n\n";
 			foreach (fields($table) as $field => $info) {
 				$type = $this->detectType($info['type']);
 				$type = isset($this->phpTypes[$type]) ? $this->phpTypes[$type] : $type;
@@ -123,13 +123,13 @@ class AdminerDumpPhpPrototype
 					$type = '?' . $type;
 				}
 				if (PHP_VERSION_ID >= 70400) {
-					echo "\n\tpublic $type \$$field";
+					echo "\tpublic $type \$$field";
 				} else {
 					echo "\n\t/** @var $type */\n";
 					echo "\tpublic \$$field";
 				}
 				$default = $info['default'];
-				if ($default !== null) {
+				if ($default !== null && $default !== 'CURRENT_TIMESTAMP') {
 					@settype($default, $type); // may be invalid type
 					echo ' = ' . var_export($default, true);
 				}
