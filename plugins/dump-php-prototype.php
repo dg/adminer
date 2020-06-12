@@ -11,9 +11,9 @@ class AdminerDumpPhpPrototype
 	public $shutdown_callback = false;
 	public $typePatterns = [
 		'^_' => 'string', // PostgreSQL arrays
-		'(TINY|SMALL|SHORT|MEDIUM|BIG|LONG)(INT)?|INT(EGER|\d+| IDENTITY)?|(SMALL|BIG|)SERIAL\d*|COUNTER|YEAR|BYTE|LONGLONG|UNSIGNED BIG INT' => 'int',
+		'(SMALL|SHORT|MEDIUM|BIG|LONG)(INT)?|INT(EGER|\d+| IDENTITY)?|(SMALL|BIG|)SERIAL\d*|COUNTER|YEAR|BYTE|LONGLONG|UNSIGNED BIG INT' => 'int',
 		'(NEW)?DEC(IMAL)?(\(.*)?|NUMERIC|REAL|DOUBLE( PRECISION)?|FLOAT\d*|(SMALL)?MONEY|CURRENCY|NUMBER' => 'float',
-		'BOOL(EAN)?' => 'bool',
+		'BOOL(EAN)?|TINYINT' => 'bool',
 		'TIME' => 'time',
 		'DATE' => 'date',
 		'(SMALL)?DATETIME(OFFSET)?\d*|TIME(STAMP.*)?' => 'datetime',
@@ -68,7 +68,7 @@ class AdminerDumpPhpPrototype
 				$args = var_export($field, true) . ', ' . var_export($label . ':', true);
 				$type = $this->detectType($info['type']);
 
-				if ($type === 'bool' || $info['type'] === 'tinyint') {
+				if ($type === 'bool') {
 					echo '$form->addCheckbox(', var_export($field, true), ', ', var_export($label, true), ')';
 					$info['null'] = true;
 				} elseif ($type === 'int' && strpos($field, '_id')) {
