@@ -76,11 +76,11 @@ class AdminerDumpPhpPrototype
 				} elseif ($type === 'int') {
 					echo "\$form->addInteger($args)";
 				} elseif ($type === 'datetime') {
-					echo "\$form->addText($args)\n\t->setType('datetime-local')";
+					echo "\$form->addText($args)\n\t->setHtmlType('datetime-local')";
 				} elseif ($type === 'date') {
-					echo "\$form->addText($args)\n\t->setType('date')";
+					echo "\$form->addText($args)\n\t->setHtmlType('date')";
 				} elseif ($type === 'time') {
-					echo "\$form->addText($args)\n\t->setType('time')";
+					echo "\$form->addText($args)\n\t->setHtmlType('time')";
 				} elseif ($type === 'float') {
 					echo "\$form->addText($args)\n\t->addRule(\$form::FLOAT)";
 				} elseif ($type === 'string' && strpos($info['type'], 'text') === false) {
