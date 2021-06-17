@@ -49,6 +49,7 @@ function adminer_object()
 		new AdminerDumpJson,
 		new AdminerDumpPhpPrototype,
 		new AdminerTablesFilter,
+		//new AdminerLoginWithoutCredentials,
 	];
 
 
