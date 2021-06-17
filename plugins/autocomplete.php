@@ -20,22 +20,49 @@ class AdminerAutocomplete
 		}
 
 		$suggests = [];
-		foreach ($this->keywords as $keyword) {
-			$suggests[] = "$keyword ";
-		}
 		foreach (array_keys(tables_list()) as $table) {
 			$suggests[] = $table;
 			foreach (fields($table) as $field => $foo) {
-				$suggests[] = "$table.$field ";
+				$suggests[] = "$table.$field";
 			}
 		} ?>
-<script<?php echo nonce();?> type="text/javascript" src="static/jquery.min.js"></script>
-<script<?php echo nonce();?> type="text/javascript" src="static/tabcomplete/tabcomplete.js"></script>
-<style>.hint { color: #bdc3c7; }</style>
-<script<?php echo nonce();?> type="text/javascript">
-$(function(){
-	$('.sqlarea').tabcomplete(<?php echo json_encode($suggests) ?>);
-});
+<style<?php echo nonce();?>>
+.ace_editor {
+	width: 100%;
+    height: 500px;
+	resize: both;
+	border: 1px solid black;
+}
+</style>
+<script<?php echo nonce();?> src="static/ace/ace.js"></script>
+<script<?php echo nonce();?> src="static/ace/ext-language_tools.js"></script>
+<script<?php echo nonce();?>>
+document.addEventListener('DOMContentLoaded', () => {
+
+	var keywords = <?php echo json_encode($this->keywords) ?>;
+	var suggests = <?php echo json_encode($suggests) ?>;
+
+	ace.config.set('basePath', 'static/ace');
+	var editor = ace.edit(document.querySelector('.sqlarea'));
+	editor.setTheme('ace/theme/tomorrow');
+	editor.session.setMode('ace/mode/sql');
+	editor.setOptions({
+		fontSize: 14,
+		enableBasicAutocompletion: [{
+			identifierRegexps: [/[a-zA-Z_0-9\.\-\u00A2-\uFFFF]/], // added dot
+			getCompletions: (editor, session, pos, prefix, callback) => {
+				console.log(pos, prefix);
+				// note, won't fire if caret is at a word that does not have these letters
+				callback(null, [
+					...keywords.map((word) => ({value: word + ' ', score: 1, meta: 'keyword'})),
+					...suggests.map((word) => ({value: word + ' ', score: 2, meta: 'name'}))
+				]);
+			},
+		}],
+		// to make popup appear automatically, without explicit ctrl+space
+		enableLiveAutocompletion: true,
+	});
+})
 </script>
 <?php
 	}
