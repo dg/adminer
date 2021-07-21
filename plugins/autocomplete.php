@@ -41,9 +41,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	var keywords = <?php echo json_encode($this->keywords) ?>;
 	var suggests = <?php echo json_encode($suggests) ?>;
+	var textarea = document.querySelector('.sqlarea');
+	var form = textarea.form;
+	var editor;
 
 	ace.config.set('basePath', 'static/ace');
-	var editor = ace.edit(document.querySelector('.sqlarea'));
+	editor = ace.edit(textarea);
 	editor.setTheme('ace/theme/tomorrow');
 	editor.session.setMode('ace/mode/sql');
 	editor.setOptions({
@@ -51,7 +54,6 @@ document.addEventListener('DOMContentLoaded', () => {
 		enableBasicAutocompletion: [{
 			identifierRegexps: [/[a-zA-Z_0-9\.\-\u00A2-\uFFFF]/], // added dot
 			getCompletions: (editor, session, pos, prefix, callback) => {
-				console.log(pos, prefix);
 				// note, won't fire if caret is at a word that does not have these letters
 				callback(null, [
 					...keywords.map((word) => ({value: word + ' ', score: 1, meta: 'keyword'})),
@@ -62,7 +64,13 @@ document.addEventListener('DOMContentLoaded', () => {
 		// to make popup appear automatically, without explicit ctrl+space
 		enableLiveAutocompletion: true,
 	});
-})
+
+	textarea.hidden = true;
+	form.appendChild(textarea);
+	editor.getSession().on('change', () => {
+		textarea.value = editor.getSession().getValue();
+	});
+});
 </script>
 <?php
 	}
