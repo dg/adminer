@@ -61,8 +61,13 @@ class AdminerDumpPhpPrototype
 
 		} elseif ($_POST['format'] == 'code-class') {
 			ob_start();
-			$this->exportAsDataClass($table);
+			$this->exportAsDataClass($table, false);
 			$this->printCode(ob_get_clean());
+			if (PHP_VERSION_ID >= 80000) {
+				ob_start();
+				$this->exportAsDataClass($table, true);
+				$this->printCode(ob_get_clean());
+			}
 
 		} else {
 			return;
@@ -146,13 +151,16 @@ class AdminerDumpPhpPrototype
 	}
 
 
-	private function exportAsDataClass($table)
+	private function exportAsDataClass($table, $promo)
 	{
 		$class = ucwords(str_replace('_', ' ', $table));
 		$class = preg_replace('~\W~', '', $class) . 'FormData';
-		echo "class $class\n";
+		echo "final class $class\n";
 		echo "{\n";
 		echo "\tuse Nette\\SmartObject;\n\n";
+		if ($promo) {
+			echo "\tpublic function __construct(\n";
+		}
 		foreach (fields($table) as $field => $info) {
 			$type = $this->detectType($info['type']);
 			$type = isset($this->phpTypes[$type]) ? $this->phpTypes[$type] : $type;
@@ -160,6 +168,7 @@ class AdminerDumpPhpPrototype
 				$type = '?' . $type;
 			}
 			if (PHP_VERSION_ID >= 70400) {
+				echo $promo ? "\t" : '';
 				echo "\tpublic $type \$$field";
 			} else {
 				echo "\n\t/** @var $type */\n";
@@ -170,7 +179,10 @@ class AdminerDumpPhpPrototype
 				@settype($default, $type); // may be invalid type
 				echo ' = ' . var_export($default, true);
 			}
-			echo ";\n";
+			echo $promo ? ",\n" : ";\n";
+		}
+		if ($promo) {
+			echo "\t) {\n\t}\n";
 		}
 		echo "}\n";
 	}
