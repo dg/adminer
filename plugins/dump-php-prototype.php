@@ -86,6 +86,7 @@ class AdminerDumpPhpPrototype
 
 	private function exportAsInsertQuery($table)
 	{
+		echo "// \$db->table(" . var_export($table, true) . ")->insert([\n";
 		echo "\$db->query('INSERT INTO " . table($table) . "', [\n";
 		foreach (fields($table) as $field => $foo) {
 			echo "\t'$field' => \$$field,\n";
