@@ -104,6 +104,9 @@ class AdminerDumpPhpPrototype
 			$label = ucfirst(str_replace('_', ' ', $field));
 			$args = var_export($field, true) . ', ' . var_export($label . ':', true);
 			$type = $this->detectType($info['type']);
+			$length = is_numeric($info['length']) ? (int) $info['length'] : null;
+			$argLength = $length ? ', maxLength: ' . $length : '';
+			$lengthRule = false;
 
 			if ($type === 'bool') {
 				echo '$form->addCheckbox(', var_export($field, true), ', ', var_export($label, true), ')';
@@ -113,31 +116,32 @@ class AdminerDumpPhpPrototype
 			} elseif ($type === 'int') {
 				echo "\$form->addInteger($args)";
 			} elseif ($type === 'datetime') {
-				echo "\$form->addText($args)\n\t->setHtmlType('datetime-local')";
+				echo "\$form->addText($args$argLength)\n\t->setHtmlType('datetime-local')";
 			} elseif ($type === 'date') {
-				echo "\$form->addText($args)\n\t->setHtmlType('date')";
+				echo "\$form->addText($args$argLength)\n\t->setHtmlType('date')";
 			} elseif ($type === 'time') {
-				echo "\$form->addText($args)\n\t->setHtmlType('time')";
+				echo "\$form->addText($args$argLength)\n\t->setHtmlType('time')";
 			} elseif ($type === 'float') {
 				echo "\$form->addText($args$argLength)\n\t->addRule(\$form::Float)";
 			} elseif ($type === 'string' && strpos($info['type'], 'text') === false) {
 				if (strpos($field, 'email') === false) {
-					echo "\$form->addText($args)";
+					echo "\$form->addText($args$argLength)";
 				} else {
 					echo "\$form->addEmail($args)";
+					$lengthRule = true;
 				}
 			} elseif ($type === 'string') {
 				echo "\$form->addTextArea($args)";
+				$lengthRule = true;
 			} else {
-				echo "\$form->addText($args)";
+				echo "\$form->addText($args$argLength)";
 			}
 
 			if (!$info['null']) {
 				echo "\n\t->setRequired()";
 			}
 
-			$length = (int) $info['length'];
-			if ($length && $type === 'string') {
+			if ($lengthRule && $length && $type === 'string') {
 				echo "\n\t->addRule(\$form::MaxLength, null, $length)";
 			}
 
