@@ -20,8 +20,8 @@ class AdminerDumpPhpPrototype
 		'BYTEA|(TINY|MEDIUM|LONG|)BLOB|(LONG )?(VAR)?BINARY|IMAGE' => 'binary',
 	];
 	public $phpTypes = [
-		'date' => 'DateTimeImmutable',
-		'datetime' => 'DateTimeImmutable',
+		'date' => '\DateTimeImmutable',
+		'datetime' => '\DateTimeImmutable',
 		'binary' => 'string',
 	];
 	private $formats = [
