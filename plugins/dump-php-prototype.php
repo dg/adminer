@@ -26,7 +26,7 @@ class AdminerDumpPhpPrototype
 	];
 	private $formats = [
 		'code-insert' => 'Nette Database',
-		'code-form' => 'Nette Form',
+		'code-form' => 'Nette Forms',
 		'code-class' => 'Data Class',
 	];
 
@@ -63,11 +63,10 @@ class AdminerDumpPhpPrototype
 			ob_start();
 			$this->exportAsDataClass($table, false);
 			$this->printCode(ob_get_clean());
-			if (PHP_VERSION_ID >= 80000) {
-				ob_start();
-				$this->exportAsDataClass($table, true);
-				$this->printCode(ob_get_clean());
-			}
+
+			ob_start();
+			$this->exportAsDataClass($table, true);
+			$this->printCode(ob_get_clean());
 
 		} else {
 			return;
@@ -120,7 +119,7 @@ class AdminerDumpPhpPrototype
 			} elseif ($type === 'time') {
 				echo "\$form->addText($args)\n\t->setHtmlType('time')";
 			} elseif ($type === 'float') {
-				echo "\$form->addText($args)\n\t->addRule(\$form::FLOAT)";
+				echo "\$form->addText($args$argLength)\n\t->addRule(\$form::Float)";
 			} elseif ($type === 'string' && strpos($info['type'], 'text') === false) {
 				if (strpos($field, 'email') === false) {
 					echo "\$form->addText($args)";
@@ -139,14 +138,14 @@ class AdminerDumpPhpPrototype
 
 			$length = (int) $info['length'];
 			if ($length && $type === 'string') {
-				echo "\n\t->addRule(\$form::MAX_LENGTH, null, $length)";
+				echo "\n\t->addRule(\$form::MaxLength, null, $length)";
 			}
 
 			echo ";\n";
 		}
 		echo "\$form->addSubmit('send');\n";
 		echo "\$form->addProtection();\n";
-		echo "\$form->onSuccess[] = [\$this, 'formSucceeded'];\n";
+		echo "\$form->onSuccess[] = \$this->formSucceeded(...);\n";
 		echo "\n\n";
 	}
 
@@ -157,7 +156,6 @@ class AdminerDumpPhpPrototype
 		$class = preg_replace('~\W~', '', $class) . 'FormData';
 		echo "final class $class\n";
 		echo "{\n";
-		echo "\tuse Nette\\SmartObject;\n\n";
 		if ($promo) {
 			echo "\tpublic function __construct(\n";
 		}
@@ -167,13 +165,8 @@ class AdminerDumpPhpPrototype
 			if ($info['null']) {
 				$type = '?' . $type;
 			}
-			if (PHP_VERSION_ID >= 70400) {
-				echo $promo ? "\t" : '';
-				echo "\tpublic $type \$$field";
-			} else {
-				echo "\n\t/** @var $type */\n";
-				echo "\tpublic \$$field";
-			}
+			echo $promo ? "\t" : '';
+			echo "\tpublic $type \$$field";
 			$default = $info['default'];
 			if ($default !== null && $default !== 'CURRENT_TIMESTAMP') {
 				@settype($default, $type); // may be invalid type
