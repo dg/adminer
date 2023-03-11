@@ -116,6 +116,10 @@ class AdminerDumpPhpPrototype
 				echo "\$form->addSelect($args)";
 			} elseif ($type === 'int') {
 				echo "\$form->addInteger($args)";
+			} elseif ($info['type'] === 'enum') {
+				echo "\$form->addSelect($args, []) /*" . $info['length'] . "*/";
+			} elseif ($info['type'] === 'set') {
+				echo "\$form->addMultiSelect($args, []) /*" . $info['length'] . "*/";
 			} elseif ($type === 'datetime') {
 				echo "\$form->addText($args$argLength)\n\t->setHtmlType('datetime-local')";
 			} elseif ($type === 'date') {
