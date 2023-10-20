@@ -35,6 +35,10 @@ if (empty($_GET['file'])) {
 
 function adminer_object()
 {
+	$local = !isset($_SERVER['HTTP_X_FORWARDED_FOR'])
+		&& isset($_SERVER['REMOTE_ADDR'])
+		&& in_array($_SERVER['REMOTE_ADDR'], ['127.0.0.1', '::1'], true);
+
 	include_once __DIR__ . '/plugins/plugin.php';
 
 	foreach (glob(__DIR__ . '/plugins/*.php') as $filename) {
@@ -49,8 +53,11 @@ function adminer_object()
 		new AdminerDumpJson,
 		new AdminerDumpPhpPrototype,
 		new AdminerTablesFilter,
-		//new AdminerLoginWithoutCredentials,
 	];
+
+	if ($local) {
+		$plugins[] = new AdminerLoginWithoutCredentials;
+	}
 
 
 	if (getenv('ADMINER_SERVER') && getenv('ADMINER_USERNAME')) {
