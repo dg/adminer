@@ -1,5 +1,5 @@
 {
-	"name": "dg/adminer-custom",
+	"name": "dg/adminer",
 	"description": "Customization for Adminer, the best database management tool written in PHP.",
 	"keywords": ["database", "mysql", "postgresql", "sqlite", "mssql", "oracle", "mongodb", "elasticsearch"]
 }
