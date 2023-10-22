@@ -178,8 +178,11 @@ class AdminerDumpPhpPrototype
 			echo "\tpublic $type \$$field";
 			$default = $info['default'];
 			if ($default !== null && $default !== 'CURRENT_TIMESTAMP') {
-				@settype($default, $type); // may be invalid type
-				echo ' = ' . var_export($default, true);
+				try {
+					@settype($default, $type); // may be invalid type
+					echo ' = ' . var_export($default, true);
+				} catch (ValueError $e) {
+				}
 			}
 			echo $promo ? ",\n" : ";\n";
 		}
