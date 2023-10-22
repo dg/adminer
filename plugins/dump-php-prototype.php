@@ -27,7 +27,7 @@ class AdminerDumpPhpPrototype
 	private $formats = [
 		'code-insert' => 'Nette Database',
 		'code-form' => 'Nette Forms',
-		'code-class' => 'Data Class',
+		'code-class' => 'Form Class',
 	];
 
 
@@ -121,13 +121,13 @@ class AdminerDumpPhpPrototype
 			} elseif ($info['type'] === 'set') {
 				echo "\$form->addMultiSelect($args, []) /*" . $info['length'] . "*/";
 			} elseif ($type === 'datetime') {
-				echo "\$form->addText($args$argLength)\n\t->setHtmlType('datetime-local')";
+				echo "\$form->addDateTime($args)";
 			} elseif ($type === 'date') {
-				echo "\$form->addText($args$argLength)\n\t->setHtmlType('date')";
+				echo "\$form->addDate($args)";
 			} elseif ($type === 'time') {
-				echo "\$form->addText($args$argLength)\n\t->setHtmlType('time')";
+				echo "\$form->addTime($args)";
 			} elseif ($type === 'float') {
-				echo "\$form->addText($args$argLength)\n\t->addRule(\$form::Float)";
+				echo "\$form->addFloat($args)";
 			} elseif ($type === 'string' && strpos($info['type'], 'text') === false) {
 				if (strpos($field, 'email') === false) {
 					echo "\$form->addText($args$argLength)";
@@ -153,7 +153,6 @@ class AdminerDumpPhpPrototype
 			echo ";\n";
 		}
 		echo "\$form->addSubmit('send');\n";
-		echo "\$form->addProtection();\n";
 		echo "\$form->onSuccess[] = \$this->formSucceeded(...);\n";
 		echo "\n\n";
 	}
