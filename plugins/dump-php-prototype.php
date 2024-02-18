@@ -89,7 +89,7 @@ class AdminerDumpPhpPrototype
 		echo "// \$db->table(" . var_export($table, true) . ")->insert([\n";
 		echo "\$db->query('INSERT INTO " . table($table) . "', [\n";
 		foreach (fields($table) as $field => $foo) {
-			echo "\t'$field' => \$$field,\n";
+			echo "\t'$field' => \$data->$field,\n";
 		}
 		echo "]);\n\n";
 	}
