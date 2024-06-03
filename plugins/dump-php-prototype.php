@@ -114,6 +114,13 @@ class AdminerDumpPhpPrototype
 				echo "\$form->addSelect($args)";
 			} elseif ($type === 'int') {
 				echo "\$form->addInteger($args)";
+				if ($range = $this->detectRange($info)) {
+					if ($range[1] === null) {
+						$rules .= "\n\t->addRule(\$form::Min, null, {$range[0]})";
+					} else {
+						$rules .= "\n\t->addRule(\$form::Range, null, [{$range[0]}, {$range[1]}])";
+					}
+				}
 			} elseif ($info['type'] === 'enum') {
 				echo "\$form->addSelect($args, []) /*" . $info['length'] . '*/';
 			} elseif ($info['type'] === 'set') {
@@ -227,5 +234,18 @@ class AdminerDumpPhpPrototype
 			};
 		}
 		return null;
+	}
+
+
+	public function detectRange($info)
+	{
+		$signed = empty($info['unsigned']);
+		return match ($info['type']) {
+			'tinyint' => $signed ? [-128, 127] : [0, 255],
+			'smallint' => $signed ? [-32768, 32767] : [0, 65535],
+			'mediumint' => $signed ? [-8388608, 8388607] : [0, 16777215],
+			'year' => [1901, 2155],
+			default => $signed ? null : [0, null],
+		};
 	}
 }
