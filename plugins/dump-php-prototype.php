@@ -86,7 +86,7 @@ class AdminerDumpPhpPrototype
 
 	private function exportAsInsertQuery($table)
 	{
-		echo "// \$db->table(" . var_export($table, true) . ")->insert([\n";
+		echo '// $db->table(' . var_export($table, true) . ")->insert([\n";
 		echo "\$db->query('INSERT INTO " . table($table) . "', [\n";
 		foreach (fields($table) as $field => $foo) {
 			echo "\t'$field' => \$data->$field,\n";
@@ -105,9 +105,7 @@ class AdminerDumpPhpPrototype
 			$label = ucfirst(str_replace('_', ' ', $field));
 			$args = var_export($field, true) . ', ' . var_export($label . ':', true);
 			$type = $this->detectType($info['type']);
-			$length = is_numeric($info['length']) ? (int) $info['length'] : null;
-			$argLength = $length ? ', maxLength: ' . $length : '';
-			$lengthRule = false;
+			$rules = '';
 
 			if ($type === 'bool') {
 				echo '$form->addCheckbox(', var_export($field, true), ', ', var_export($label, true), ')';
@@ -117,9 +115,9 @@ class AdminerDumpPhpPrototype
 			} elseif ($type === 'int') {
 				echo "\$form->addInteger($args)";
 			} elseif ($info['type'] === 'enum') {
-				echo "\$form->addSelect($args, []) /*" . $info['length'] . "*/";
+				echo "\$form->addSelect($args, []) /*" . $info['length'] . '*/';
 			} elseif ($info['type'] === 'set') {
-				echo "\$form->addMultiSelect($args, []) /*" . $info['length'] . "*/";
+				echo "\$form->addMultiSelect($args, []) /*" . $info['length'] . '*/';
 			} elseif ($type === 'datetime') {
 				echo "\$form->addDateTime($args)";
 			} elseif ($type === 'date') {
@@ -128,28 +126,29 @@ class AdminerDumpPhpPrototype
 				echo "\$form->addTime($args)";
 			} elseif ($type === 'float') {
 				echo "\$form->addFloat($args)";
-			} elseif ($type === 'string' && strpos($info['type'], 'text') === false) {
-				if (strpos($field, 'email') === false) {
-					echo "\$form->addText($args$argLength)";
-				} else {
-					echo "\$form->addEmail($args)";
-					$lengthRule = true;
-				}
 			} elseif ($type === 'string') {
-				echo "\$form->addTextArea($args)";
-				$lengthRule = true;
+				$length = $this->detectLength($info);
+				if (str_contains($info['type'], 'text')) {
+					echo "\$form->addTextArea($args)";
+				} elseif (str_contains($field, 'email')) {
+					echo "\$form->addEmail($args)";
+				} else {
+					$args .= $length ? ', maxLength: ' . $length : '';
+					echo "\$form->addText($args)";
+					$length = null;
+				}
+				if ($length) {
+					$rules .= "\n\t->addRule(\$form::MaxLength, null, $length)";
+				}
 			} else {
-				echo "\$form->addText($args$argLength)";
+				echo "\$form->addText($args)";
 			}
 
 			if (!$info['null']) {
 				echo "\n\t->setRequired()";
 			}
 
-			if ($lengthRule && $length && $type === 'string') {
-				echo "\n\t->addRule(\$form::MaxLength, null, $length)";
-			}
-
+			echo $rules;
 			echo ";\n";
 		}
 		echo "\$form->addSubmit('send');\n";
@@ -169,7 +168,7 @@ class AdminerDumpPhpPrototype
 		}
 		foreach (fields($table) as $field => $info) {
 			$type = $this->detectType($info['type']);
-			$type = isset($this->phpTypes[$type]) ? $this->phpTypes[$type] : $type;
+			$type = $this->phpTypes[$type] ?? $type;
 			if ($info['null']) {
 				$type = '?' . $type;
 			}
@@ -212,5 +211,11 @@ class AdminerDumpPhpPrototype
 			}
 		}
 		return $cache[$type];
+	}
+
+
+	public function detectLength($info)
+	{
+		return is_numeric($info['length']) ? (int) $info['length'] : null;
 	}
 }
