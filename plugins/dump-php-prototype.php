@@ -216,6 +216,16 @@ class AdminerDumpPhpPrototype
 
 	public function detectLength($info)
 	{
-		return is_numeric($info['length']) ? (int) $info['length'] : null;
+		if (is_numeric($info['length'])) {
+			return (int) $info['length'];
+		}
+		if (DRIVER === 'server') { // MySQL
+			return match ($info['type']) {
+				'tinytext' => 255,
+				'text' => 65535,
+				default => null,
+			};
+		}
+		return null;
 	}
 }
