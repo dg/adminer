@@ -135,15 +135,15 @@ class AdminerDumpPhpPrototype
 				$length = $this->detectLength($info);
 				if (str_contains($info['type'], 'text')) {
 					echo "\$form->addTextArea($args)";
+					if ($length) {
+						$rules .= "\n\t->addRule(\$form::MaxLength, null, $length)";
+					}
 				} elseif (str_contains($field, 'email')) {
+					$args .= $length ? ', maxLength: ' . $length : '';
 					echo "\$form->addEmail($args)";
 				} else {
 					$args .= $length ? ', maxLength: ' . $length : '';
 					echo "\$form->addText($args)";
-					$length = null;
-				}
-				if ($length) {
-					$rules .= "\n\t->addRule(\$form::MaxLength, null, $length)";
 				}
 			} else {
 				echo "\$form->addText($args)";
