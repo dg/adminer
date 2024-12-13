@@ -7,7 +7,7 @@
  */
 class AdminerAutocomplete
 {
-	public $keywords = [
+	private array $keywords = [
 		'DELETE FROM', 'DISTINCT', 'EXPLAIN', 'FROM', 'GROUP BY', 'HAVING', 'INSERT INTO', 'INNER JOIN', 'IGNORE',
 		'LIMIT', 'LEFT JOIN', 'NULL', 'ORDER BY', 'ON DUPLICATE KEY UPDATE', 'SELECT', 'UPDATE', 'WHERE',
 	];
@@ -26,24 +26,24 @@ class AdminerAutocomplete
 				$suggests[] = "$table.$field";
 			}
 		} ?>
-<style<?php echo nonce();?>>
+<style<?= nonce() ?>>
 .ace_editor {
 	width: 100%;
-    height: 500px;
+	height: 500px;
 	resize: both;
 	border: 1px solid black;
 }
 </style>
-<script<?php echo nonce();?> src="static/ace/ace.js"></script>
-<script<?php echo nonce();?> src="static/ace/ext-language_tools.js"></script>
-<script<?php echo nonce();?>>
+<script<?= nonce() ?> src="static/ace/ace.js"></script>
+<script<?= nonce() ?> src="static/ace/ext-language_tools.js"></script>
+<script<?= nonce() ?>>
 document.addEventListener('DOMContentLoaded', () => {
 
-	var keywords = <?php echo json_encode($this->keywords) ?>;
-	var suggests = <?php echo json_encode($suggests) ?>;
-	var textarea = document.querySelector('.sqlarea');
-	var form = textarea.form;
-	var editor;
+	let keywords = <?= json_encode($this->keywords) ?>;
+	let suggests = <?= json_encode($suggests) ?>;
+	let textarea = document.querySelector('.sqlarea');
+	let form = textarea.form;
+	let editor;
 
 	ace.config.set('basePath', 'static/ace');
 	editor = ace.edit(textarea);
@@ -56,8 +56,8 @@ document.addEventListener('DOMContentLoaded', () => {
 			getCompletions: (editor, session, pos, prefix, callback) => {
 				// note, won't fire if caret is at a word that does not have these letters
 				callback(null, [
-					...keywords.map((word) => ({value: word + ' ', score: 1, meta: 'keyword'})),
-					...suggests.map((word) => ({value: word + ' ', score: 2, meta: 'name'}))
+					...keywords.map((word) => ({ value: word + ' ', score: 1, meta: 'keyword' })),
+					...suggests.map((word) => ({ value: word + ' ', score: 2, meta: 'name' })),
 				]);
 			},
 		}],

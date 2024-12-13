@@ -6,9 +6,11 @@
 * @license https://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
 * @license https://www.gnu.org/licenses/gpl-2.0.html GNU General Public License, version 2 (one or other)
 */
-class AdminerTablesFilter {
-	function tablesPrint($tables) { ?>
-<script<?php echo nonce(); ?>>
+class AdminerTablesFilter
+{
+	public function tablesPrint($tables)
+	{ ?>
+<script<?= nonce() ?>>
 var tablesFilterTimeout = null;
 var tablesFilterValue = '';
 
@@ -63,7 +65,7 @@ sessionStorage && document.addEventListener('DOMContentLoaded', function () {
 	sessionStorage.setItem('adminer_tables_filter_db', db);
 });
 </script>
-<p class="jsonly"><input id="filter-field" autocomplete="off"><?php echo script("qs('#filter-field').oninput = tablesFilterInput;"); ?>
+<p class="jsonly"><input id="filter-field" autocomplete="off"><?= script("qs('#filter-field').oninput = tablesFilterInput;") ?>
 <?php
 	}
 }

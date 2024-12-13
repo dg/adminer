@@ -7,9 +7,7 @@
  */
 class AdminerDumpPhpPrototype
 {
-	public $output = [];
-	public $shutdown_callback = false;
-	public $typePatterns = [
+	private array $typePatterns = [
 		'^_' => 'string', // PostgreSQL arrays
 		'(SMALL|SHORT|MEDIUM|BIG|LONG)(INT)?|INT(EGER|\d+| IDENTITY)?|(SMALL|BIG|)SERIAL\d*|COUNTER|YEAR|BYTE|LONGLONG|UNSIGNED BIG INT' => 'int',
 		'(NEW)?DEC(IMAL)?(\(.*)?|NUMERIC|REAL|DOUBLE( PRECISION)?|FLOAT\d*|(SMALL)?MONEY|CURRENCY|NUMBER' => 'float',
@@ -19,12 +17,12 @@ class AdminerDumpPhpPrototype
 		'(SMALL)?DATETIME(OFFSET)?\d*|TIME(STAMP.*)?' => 'datetime',
 		'BYTEA|(TINY|MEDIUM|LONG|)BLOB|(LONG )?(VAR)?BINARY|IMAGE' => 'binary',
 	];
-	public $phpTypes = [
+	private array $phpTypes = [
 		'date' => '\DateTimeImmutable',
 		'datetime' => '\DateTimeImmutable',
 		'binary' => 'string',
 	];
-	private $formats = [
+	private array $formats = [
 		'code-insert' => 'Nette Database',
 		'code-form' => 'Nette Forms',
 		'code-class' => 'Form Class',
@@ -206,7 +204,7 @@ class AdminerDumpPhpPrototype
 	}
 
 
-	public function detectType($type)
+	private function detectType($type)
 	{
 		static $cache;
 		if (!isset($cache[$type])) {
@@ -221,7 +219,7 @@ class AdminerDumpPhpPrototype
 	}
 
 
-	public function detectLength($info)
+	private function detectLength($info)
 	{
 		if (is_numeric($info['length'])) {
 			return (int) $info['length'];
@@ -237,7 +235,7 @@ class AdminerDumpPhpPrototype
 	}
 
 
-	public function detectRange($info)
+	private function detectRange($info)
 	{
 		$signed = empty($info['unsigned']);
 		return match ($info['type']) {

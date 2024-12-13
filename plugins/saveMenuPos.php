@@ -11,11 +11,11 @@ class AdminerSaveMenuPos
 		if (!DB) {
 			return;
 		} ?>
-<script<?php echo nonce();?> type="text/javascript">
+<script<?= nonce() ?> type="text/javascript">
 
 if (window.localStorage) {
 	document.addEventListener('DOMContentLoaded', function() {
-		var key = 'menuPos@' + '<?php echo DB; ?>',
+		let key = 'menuPos@' + '<?= DB ?>',
 			pos = localStorage.getItem(key)
 			menu = document.getElementById('menu');
 
