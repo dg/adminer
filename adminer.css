@@ -238,6 +238,7 @@ table code {
 #content {
 	margin: 0 0 0 300px;
 	padding: 20px 20px 60px 20px;
+	min-width: calc(100vw - 370px);
 	background: white;
 	position: absolute;
 	z-index: 1;
