@@ -67,8 +67,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	textarea.hidden = true;
 	form.appendChild(textarea);
-	editor.getSession().on('change', () => {
-		textarea.value = editor.getSession().getValue();
+
+	// synchronize changes in textarea.value and ACE editor
+	const originalDescriptor = Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype, 'value');
+	Object.defineProperty(textarea, 'value', {
+		get: function () {
+			let text = editor.getSession().getValue();
+			originalDescriptor.set.call(this, text); // the form serializer seems to need this
+			return text;
+		},
+		set: function (val) {
+			originalDescriptor.set.call(this, val);
+			editor.setValue(val, 1); // 1: cursor to end
+		},
 	});
 });
 </script>
