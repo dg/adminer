@@ -182,6 +182,19 @@ th, td {
 	background: #CEE0FC;
 }
 
+thead {
+	position: sticky;
+	top: 40px;
+	container-type: scroll-state;
+
+	> tr {
+		@container scroll-state(stuck: top) {
+			box-shadow: 0 2px 5px rgb(0 0 0 / 21%);
+            transition: .2s;
+	    }
+    }
+}
+
 thead th {
 	text-align: center;
 	padding: .2em .5em;
