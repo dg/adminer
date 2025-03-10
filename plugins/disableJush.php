@@ -10,7 +10,7 @@ class AdminerDisableJush
 	public function head()
 	{
 		?>
-<script<?= nonce() ?> type="text/javascript">
+<script<?= Adminer\nonce() ?> type="text/javascript">
 (function(){
 	var origBodyLoad = bodyLoad,
 		tags = document.getElementsByTagName('textarea');

@@ -20,13 +20,13 @@ class AdminerAutocomplete
 		}
 
 		$suggests = [];
-		foreach (array_keys(tables_list()) as $table) {
+		foreach (array_keys(Adminer\tables_list()) as $table) {
 			$suggests[] = $table;
-			foreach (fields($table) as $field => $foo) {
+			foreach (Adminer\fields($table) as $field => $foo) {
 				$suggests[] = "$table.$field";
 			}
 		} ?>
-<style<?= nonce() ?>>
+<style<?= Adminer\nonce() ?>>
 .ace_editor {
 	width: 100%;
 	height: 500px;
@@ -34,9 +34,9 @@ class AdminerAutocomplete
 	border: 1px solid black;
 }
 </style>
-<script<?= nonce() ?> src="static/ace/ace.js"></script>
-<script<?= nonce() ?> src="static/ace/ext-language_tools.js"></script>
-<script<?= nonce() ?>>
+<script<?= Adminer\nonce() ?> src="static/ace/ace.js"></script>
+<script<?= Adminer\nonce() ?> src="static/ace/ext-language_tools.js"></script>
+<script<?= Adminer\nonce() ?>>
 document.addEventListener('DOMContentLoaded', () => {
 
 	let keywords = <?= json_encode($this->keywords) ?>;
