@@ -156,6 +156,7 @@ code a:hover {
 table {
 	clear: both;
 	border: 1px solid #D0CDC4;
+	border-collapse: collapse;
 	margin: 4px 0 8px;
 }
 
@@ -173,7 +174,7 @@ th, td {
 	vertical-align: top;
 }
 
-.odd th, .odd td {
+.odds tbody tr:nth-child(odd) td {
 	background: #FCFAF5;
 }
 
@@ -301,6 +302,11 @@ table code {
 #menu p, #tables {
 	margin: 0 0 4px;
 	padding: 0 0 4px;
+}
+
+#logins {
+	padding-left: 0;
+	list-style: none;
 }
 
 #logins a {
