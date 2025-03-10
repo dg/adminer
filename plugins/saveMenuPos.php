@@ -8,14 +8,14 @@ class AdminerSaveMenuPos
 {
 	public function head()
 	{
-		if (!DB) {
+		if (!Adminer\DB) {
 			return;
 		} ?>
-<script<?= nonce() ?> type="text/javascript">
+<script<?= Adminer\nonce() ?> type="text/javascript">
 
 if (window.localStorage) {
 	document.addEventListener('DOMContentLoaded', function() {
-		let key = 'menuPos@' + '<?= DB ?>',
+		let key = 'menuPos@' + '<?= Adminer\DB ?>',
 			pos = localStorage.getItem(key)
 			menu = document.getElementById('menu');
 

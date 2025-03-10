@@ -38,7 +38,7 @@ class AdminerDumpPhpPrototype
 	public function dumpHeaders()
 	{
 		if (isset($this->formats[$_POST['format']])) {
-			echo '<script' . nonce() . ' type="text/javascript" src="static/prism.js"></script>';
+			echo '<script' . Adminer\nonce() . ' type="text/javascript" src="static/prism.js"></script>';
 			echo '<link rel="stylesheet" href="static/prism.css">';
 			return $_POST['format'];
 		}
@@ -85,8 +85,8 @@ class AdminerDumpPhpPrototype
 	private function exportAsInsertQuery($table)
 	{
 		echo '// $db->table(' . var_export($table, true) . ")->insert([\n";
-		echo "\$db->query('INSERT INTO " . table($table) . "', [\n";
-		foreach (fields($table) as $field => $foo) {
+		echo "\$db->query('INSERT INTO " . Adminer\table($table) . "', [\n";
+		foreach (Adminer\fields($table) as $field => $foo) {
 			echo "\t'$field' => \$data->$field,\n";
 		}
 		echo "]);\n\n";
@@ -95,7 +95,7 @@ class AdminerDumpPhpPrototype
 
 	private function exportAsForm($table)
 	{
-		foreach (fields($table) as $field => $info) {
+		foreach (Adminer\fields($table) as $field => $info) {
 			if (!empty($info['auto_increment'])) {
 				continue;
 			}
@@ -171,7 +171,7 @@ class AdminerDumpPhpPrototype
 		if ($promo) {
 			echo "\tpublic function __construct(\n";
 		}
-		foreach (fields($table) as $field => $info) {
+		foreach (Adminer\fields($table) as $field => $info) {
 			$type = $this->detectType($info['type']);
 			$type = $this->phpTypes[$type] ?? $type;
 			if ($info['null']) {
@@ -224,7 +224,7 @@ class AdminerDumpPhpPrototype
 		if (is_numeric($info['length'])) {
 			return (int) $info['length'];
 		}
-		if (DRIVER === 'server') { // MySQL
+		if (Adminer\DRIVER === 'server') { // MySQL
 			return match ($info['type']) {
 				'tinytext' => 255,
 				'text' => 65535,
