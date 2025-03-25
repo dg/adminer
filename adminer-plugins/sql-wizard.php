@@ -6,7 +6,11 @@
  */
 class AdminerSqlWizard
 {
-	public string $model = 'gpt-4o';
+	public function __construct(
+		private string $apiKey,
+		private string $model = 'gpt-4o',
+	) {
+	}
 
 
 	public function csp()
@@ -52,7 +56,7 @@ class AdminerSqlWizard
 <script<?= Adminer\nonce() ?>>
 
 const model = {
-	apiKey: null,
+	apiKey: <?= json_encode($this->apiKey)?>,
 	model: <?= json_encode($this->model)?>,
 	apiUrl: 'https://api.openai.com/v1/chat/completions',
 	structure: <?= json_encode($struct)?>,
@@ -152,7 +156,6 @@ ${this.structure}
 
 
 const ui = {
-	apiKeyInput: null,
 	promptTextarea: null,
 	sqlTextarea: null,
 	sendBtn: null,
@@ -160,26 +163,13 @@ const ui = {
 	loading: false,
 
 	init: function () {
-		this.apiKeyInput = document.getElementById('apiKey');
 		this.promptTextarea = document.getElementById('promptTextarea');
 		this.sqlTextarea = document.querySelector('.sqlarea');
 		this.sendBtn = document.getElementById('sendBtn');
-
-		this.apiKeyInput.value = sessionStorage.getItem('openaiApiKey') || '';
-		this.apiKeyInput.addEventListener('change', () => {
-			sessionStorage.setItem('openaiApiKey', this.apiKeyInput.value);
-		});
-
 		this.sendBtn.addEventListener('click', this.onSendClick.bind(this));
 	},
 
 	onSendClick: async function () {
-		model.apiKey = sessionStorage.getItem('openaiApiKey');
-		if (!model.apiKey) {
-			alert('Please enter the API key.');
-			return;
-		}
-
 		let userRequest = this.promptTextarea.value.trim();
 		if (!userRequest) {
 			alert('Enter a verbal request.');
@@ -248,9 +238,6 @@ document.addEventListener('DOMContentLoaded', () => {
 		<textarea id="promptTextarea" name="prompt" placeholder="E.g. 'List all orders for the last 30 days'" style="height: 100px"></textarea>
 
 		<input id="sendBtn" type="button" value="Generate SQL"><br>
-
-		<label for="apiKey">OpenAI API Key:</label>
-		<input type="text" id="apiKey" placeholder="Enter your OpenAI API key" style="width: 70px"><br>
 	`;
 
 	let sqlArea = document.querySelector('.sqlarea');
