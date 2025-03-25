@@ -15,10 +15,6 @@ class AdminerAutocomplete
 
 	public function head()
 	{
-		if (!isset($_GET['sql'])) {
-			return;
-		}
-
 		$suggests = [];
 		foreach (array_keys(Adminer\tables_list()) as $table) {
 			$suggests[] = $table;
@@ -42,6 +38,10 @@ document.addEventListener('DOMContentLoaded', () => {
 	let keywords = <?= json_encode($this->keywords) ?>;
 	let suggests = <?= json_encode($suggests) ?>;
 	let textarea = document.querySelector('.sqlarea');
+	if (!textarea) {
+		return;
+	}
+
 	let form = textarea.form;
 	let editor;
 
