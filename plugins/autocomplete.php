@@ -13,14 +13,14 @@ class AdminerAutocomplete
 	];
 
 
-	public function head()
+	public function syntaxHighlighting($tableStatuses)
 	{
 		if (!isset($_GET['sql'])) {
 			return;
 		}
 
 		$suggests = [];
-		foreach (array_keys(Adminer\tables_list()) as $table) {
+		foreach (array_keys($tableStatuses) as $table) {
 			$suggests[] = $table;
 			foreach (Adminer\fields($table) as $field => $foo) {
 				$suggests[] = "$table.$field";
@@ -84,5 +84,6 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 </script>
 <?php
+		return true;
 	}
 }
