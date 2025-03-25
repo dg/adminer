@@ -20,15 +20,13 @@ class AdminerAutocomplete
 
 	public function syntaxHighlighting($tableStatuses)
 	{
-		if (!isset($_GET['sql'])) {
-			return;
-		}
+		$suggests = array_keys($tableStatuses);
 
-		$suggests = [];
-		foreach (array_keys($tableStatuses) as $table) {
-			$suggests[] = $table;
-			foreach (Adminer\fields($table) as $field => $foo) {
-				$suggests[] = "$table.$field";
+		if (isset($_GET['sql']) || isset($_GET['trigger']) || isset($_GET['check'])) {
+			foreach (Adminer\driver()->allFields() as $table => $fields) {
+				foreach ($fields as $field) {
+					$suggests[] = $table . '.' . $field['field'];
+				}
 			}
 		} ?>
 <style<?= Adminer\nonce() ?>>
@@ -67,6 +65,10 @@ document.addEventListener('DOMContentLoaded', () => {
 	let keywords = <?= json_encode($this->keywords) ?>;
 	let suggests = <?= json_encode($suggests) ?>;
 	let textarea = document.querySelector('.sqlarea');
+	if (!textarea) {
+		return;
+	}
+
 	let form = textarea.form;
 	let editor;
 
