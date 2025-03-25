@@ -13,7 +13,7 @@ class AdminerAutocomplete
 	];
 
 
-	public function head()
+	public function syntaxHighlighting($tableStatuses)
 	{
 		$suggests = [];
 		foreach (array_keys(Adminer\tables_list()) as $table) {
@@ -84,5 +84,6 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 </script>
 <?php
+		return true;
 	}
 }

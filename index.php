@@ -46,7 +46,6 @@ function adminer_object()
 	}
 
 	$plugins = [
-		new AdminerDisableJush,
 		new AdminerAutocomplete,
 		new AdminerSaveMenuPos,
 		new AdminerRemoteColor,
