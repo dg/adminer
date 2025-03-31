@@ -1,6 +1,7 @@
 <?php
 
 /**
+ * Red top border indicates production server
  * @author David Grudl
  * @license BSD
  */

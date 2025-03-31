@@ -1,6 +1,7 @@
 <?php
 
 /**
+ * Save menu position
  * @author David Grudl
  * @license BSD
  */
