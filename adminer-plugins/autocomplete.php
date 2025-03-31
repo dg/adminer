@@ -38,11 +38,29 @@ class AdminerAutocomplete
 	resize: both;
 	border: 1px solid black;
 }
+
+div.ace-tomorrow, div.ace-tomorrow div {
+	display: inline;
+}
+
+.jush-sql {
+	background: transparent;
+}
 </style>
 <script<?= Adminer\nonce() ?> src="<?= htmlspecialchars($this->root) ?>/ace<?= htmlspecialchars($this->minified) ?>.js"></script>
 <script<?= Adminer\nonce() ?> src="<?= htmlspecialchars($this->root) ?>/ext-language_tools<?= htmlspecialchars($this->minified) ?>.js"></script>
+<script<?= Adminer\nonce() ?> src="<?= htmlspecialchars($this->root) ?>/ext-static_highlight<?= htmlspecialchars($this->minified) ?>.js"></script>
 <script<?= Adminer\nonce() ?>>
 document.addEventListener('DOMContentLoaded', () => {
+	let highlight = require('ace/ext/static_highlight');
+	for (const el of qsa('code')) {
+		if (/jush-\w*sql/.test(el.className)) {
+			highlight(el, {
+				mode: 'ace/mode/sql',
+				theme: 'ace/theme/tomorrow'
+			});
+		}
+	}
 
 	let keywords = <?= json_encode($this->keywords) ?>;
 	let suggests = <?= json_encode($suggests) ?>;
