@@ -16,7 +16,7 @@ class AdminerSqlWizard
 	public function csp()
 	{
 		$csp = Adminer\csp();
-		unset($csp[0]['connect-src']);
+		$csp[0]['connect-src'] .= ' https://api.openai.com';
 		return $csp;
 	}
 
@@ -118,10 +118,10 @@ ${this.structure}
 		return match ? match[1].trim() : null;
 	},
 
-	processStream: async function (stream, onProgress, onComplete) {
+	processStream: async function (stream, onProgress) {
 		let reader = stream.getReader();
 		let decoder = new TextDecoder('utf-8');
-		let fullResponse = '';
+		let response = '';
 
 		while (true) {
 			let { value, done } = await reader.read();
@@ -137,20 +137,21 @@ ${this.structure}
 					continue;
 				}
 
-				try {
-					let parsedChunk = JSON.parse(jsonObj);
-					let content = parsedChunk.choices[0]?.delta?.content || '';
-					fullResponse += content;
-					onProgress(fullResponse);
-				} catch (error) {
-					console.error('JSON parsing error:', error, jsonObj);
-				}
+				let parsedChunk = JSON.parse(jsonObj);
+				let content = parsedChunk.choices[0]?.delta?.content || '';
+				response += content;
+				onProgress(this.extractSQL(response));
 			}
 		}
 
-		console.log('Full LLM response:', fullResponse);
-		onComplete();
-		return this.extractSQL(fullResponse);
+		console.log('LLM response:', response);
+
+		let sql = this.extractSQL(response);
+		if (!sql) {
+			throw new Error(`Unable extract SQL`);
+		}
+
+		return sql;
 	},
 };
 
@@ -183,27 +184,24 @@ const ui = {
 			let userPrompt = `User request: ${userRequest}`;
 			let stream = await model.sendRequest(systemPrompt, userPrompt);
 
-			let sqlQuery = await model.processStream(stream,
-				(fullResponse) => {
-					let partialSqlQuery = model.extractSQL(fullResponse);
-					if (partialSqlQuery) {
+			let sql = await model.processStream(stream,
+				(partialSql) => {
+					if (partialSql) {
 						if (this.loading) {
 							this.setLoading(false);
 						}
-						this.sqlTextarea.value = partialSqlQuery;
+						this.sqlTextarea.value = partialSql;
 					}
-				},
-				() => { // onComplete
-					this.setLoading(false);
 				},
 			);
 
-			this.sqlTextarea.value = sqlQuery;
+			this.setLoading(false);
+			this.sqlTextarea.value = sql;
 
 		} catch (err) {
-			console.error('Error:', err);
-			alert('An error occurred when querying the OpenAI API.');
 			this.setLoading(false);
+			console.error('Error:', err);
+			alert('An error occurred when querying the OpenAI API (see console).');
 		}
 	},
 
