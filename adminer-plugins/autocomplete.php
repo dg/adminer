@@ -12,7 +12,12 @@ class AdminerAutocomplete
 		'LIMIT', 'LEFT JOIN', 'NULL', 'ORDER BY', 'ON DUPLICATE KEY UPDATE', 'SELECT', 'UPDATE', 'WHERE',
 	];
 
-
+	public function __construct(
+		private string $root = 'static/ace',
+		private string $minified = '',
+	) {
+	}
+	
 	public function syntaxHighlighting($tableStatuses)
 	{
 		$suggests = [];
@@ -38,8 +43,8 @@ div.ace-tomorrow, div.ace-tomorrow div {
 	background: transparent;
 }
 </style>
-<script<?= Adminer\nonce() ?> src="static/ace/ace.js"></script>
-<script<?= Adminer\nonce() ?> src="static/ace/ext-language_tools.js"></script>
+<script<?= Adminer\nonce() ?> src="<?= $this->root ?>/ace<?= $this->minified ?>.js"></script>
+<script<?= Adminer\nonce() ?> src="<?= $this->root ?>/ext-language_tools<?= $this->minified ?>.js"></script>
 <script<?= Adminer\nonce() ?> src="static/ace/ext-static_highlight.js"></script>
 <script<?= Adminer\nonce() ?>>
 document.addEventListener('DOMContentLoaded', () => {
@@ -66,7 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	let form = textarea.form;
 	let editor;
 
-	ace.config.set('basePath', 'static/ace');
+	ace.config.set('basePath', '<?= $this->root ?>');
 	editor = ace.edit(textarea);
 	editor.setTheme('ace/theme/tomorrow');
 	editor.session.setMode('ace/mode/sql');

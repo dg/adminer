@@ -1,6 +1,7 @@
 <?php
 
 /**
+ * Remembers scroll position in the table list
  * @author David Grudl
  * @license BSD
  */

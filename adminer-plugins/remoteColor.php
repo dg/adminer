@@ -1,6 +1,7 @@
 <?php
 
 /**
+ * Adds a red warning strip when working on remote/production servers
  * @author David Grudl
  * @license BSD
  */
