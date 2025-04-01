@@ -1,7 +1,7 @@
 <?php
 
 /**
- * PHP prototype export
+ * Generate Nette forms, entities and PHP code for Nette Database.
  * @author David Grudl
  * @license BSD
  */
