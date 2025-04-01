@@ -53,14 +53,16 @@ div.ace-tomorrow, div.ace-tomorrow div {
 <script<?= Adminer\nonce() ?>>
 document.addEventListener('DOMContentLoaded', () => {
 	let highlight = require('ace/ext/static_highlight');
-	for (const el of qsa('code')) {
+
+	adminerHighlighter = els => els.forEach(el => {
 		if (/jush-\w*sql/.test(el.className)) {
 			highlight(el, {
 				mode: 'ace/mode/sql',
 				theme: 'ace/theme/tomorrow'
 			});
 		}
-	}
+	});
+	adminerHighlighter(qsa('code'));
 
 	let keywords = <?= json_encode($this->keywords) ?>;
 	let suggests = <?= json_encode($suggests) ?>;
