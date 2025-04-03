@@ -81,6 +81,11 @@ document.addEventListener('DOMContentLoaded', () => {
 			editor.setValue(val, 1); // 1: cursor to end
 		},
 	});
+
+	// pass on focus
+	textarea.focus = function() {
+		editor.focus();
+	}
 });
 </script>
 <?php

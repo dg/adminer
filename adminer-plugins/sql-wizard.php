@@ -168,6 +168,13 @@ const ui = {
 		this.sqlTextarea = document.querySelector('.sqlarea');
 		this.sendBtn = document.getElementById('sendBtn');
 		this.sendBtn.addEventListener('click', this.onSendClick.bind(this));
+		this.promptTextarea.addEventListener('keydown', (event) => {
+			if (event.ctrlKey && event.key === 'Enter') {
+				event.preventDefault();
+				event.stopPropagation();
+				this.onSendClick();
+			}
+		});
 	},
 
 	onSendClick: async function () {
@@ -199,6 +206,7 @@ const ui = {
 
 			this.setLoading(false);
 			this.sqlTextarea.value = sql;
+			this.sqlTextarea.focus();
 
 		} catch (err) {
 			this.setLoading(false);
