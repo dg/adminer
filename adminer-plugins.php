@@ -1,5 +1,5 @@
 <?php
 
 return [
-//	new AdminerSqlWizard('INSERT OPENAI API KEY HERE'),
+	new AdminerSqlWizard('INSERT OPENAI API KEY HERE'),
 ];
