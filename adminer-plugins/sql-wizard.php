@@ -284,13 +284,8 @@ document.addEventListener('DOMContentLoaded', () => {
 		<input id="sendBtn" type="button" value="Generate SQL"><br>
 	`;
 
-	let sqlArea = document.querySelector('.sqlarea');
-	if (!sqlArea) {
-		console.error('Element .sqlarea not found.');
-		return;
-	}
-
-	sqlArea.parentNode.insertBefore(mainDiv, sqlArea.nextSibling);
+	let form = document.querySelector('.sqlarea').form;
+	form.insertBefore(mainDiv, form.querySelector('fieldset')); // before history
 	document.getElementById('promptTextarea').value = <?= json_encode($prompt) ?>;
 
 	ui.init();
