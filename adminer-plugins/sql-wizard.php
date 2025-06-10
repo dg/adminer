@@ -276,7 +276,6 @@ const ui = {
 
 document.addEventListener('DOMContentLoaded', () => {
 	let mainDiv = document.createElement('div');
-	mainDiv.style.clear = 'both';
 
 	mainDiv.innerHTML = `
 		<textarea id="promptTextarea" name="prompt" placeholder="E.g. 'List all orders for the last 30 days'" style="height: 100px"></textarea>
@@ -285,7 +284,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	`;
 
 	let form = document.querySelector('.sqlarea').form;
-	form.insertBefore(mainDiv, form.querySelector('fieldset')); // before history
+	form.prepend(mainDiv);
 	document.getElementById('promptTextarea').value = <?= json_encode($prompt) ?>;
 
 	ui.init();
