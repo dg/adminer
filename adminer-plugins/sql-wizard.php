@@ -8,7 +8,7 @@ class AdminerSqlWizard
 {
 	public function __construct(
 		private string $apiKey,
-		private string $model = 'gpt-4o',
+		private string $model = 'gpt-5.2',
 	) {
 	}
 
