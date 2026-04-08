@@ -133,7 +133,10 @@ ${this.structure}
 		});
 
 		if (!response.ok) {
-			throw new Error(`HTTP error: ${response.status}`);
+			let body = await response.text();
+			let message;
+			try { message = JSON.parse(body).error?.message; } catch (e) {}
+			throw new Error(message || `HTTP error ${response.status}`);
 		}
 
 		return response.body;
@@ -148,6 +151,7 @@ ${this.structure}
 		let reader = stream.getReader();
 		let decoder = new TextDecoder('utf-8');
 		let response = '';
+		let buffer = '';
 
 		while (true) {
 			let { value, done } = await reader.read();
@@ -155,10 +159,16 @@ ${this.structure}
 				break;
 			}
 
-			let jsonChunks = decoder.decode(value);
-			let jsonObjects = jsonChunks.trim().split('\n').filter((line) => line.startsWith('data: ')).map((line) => line.substring(6));
+			buffer += decoder.decode(value, {stream: true});
+			let lines = buffer.split('\n');
+			buffer = lines.pop();
 
-			for (let jsonObj of jsonObjects) {
+			for (let line of lines) {
+				line = line.trim();
+				if (!line.startsWith('data: ')) {
+					continue;
+				}
+				let jsonObj = line.substring(6);
 				if (jsonObj === '[DONE]') {
 					continue;
 				}
@@ -236,8 +246,8 @@ const ui = {
 
 		} catch (err) {
 			this.setLoading(false);
-			console.error('Error:', err);
-			alert('An error occurred when querying the OpenAI API (see console).');
+			console.error('OpenAI API error:', err);
+			alert('OpenAI API error: ' + err.message);
 		}
 	},
 
