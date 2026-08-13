@@ -23,7 +23,7 @@ class AdminerSqlWizard
 
 	public function head()
 	{
-		if (!isset($_GET['sql'])) {
+		if (!isset($_GET['sql']) || !Adminer\connection()) {
 			return;
 		}
 
