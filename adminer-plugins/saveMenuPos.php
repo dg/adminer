@@ -24,8 +24,10 @@ if (window.localStorage) {
 			menu.scrollTop = pos;
 		}
 
-		window.addEventListener('unload', function() {
-			localStorage.setItem(key, menu.scrollTop);
+		document.addEventListener('visibilitychange', function() {
+			if (document.visibilityState === 'hidden') {
+				localStorage.setItem(key, menu.scrollTop);
+			}
 		}, false);
 	});
 }
